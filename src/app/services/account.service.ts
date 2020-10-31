@@ -24,6 +24,7 @@ export class AccountService {
     }
 
     login(username, password) {
+        this.user
     }
 
     logout() {
