@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <h1>Szettek</h1>
+        <button type="button" class="btn btn-dark" routerLink="/">Vissza</button>
+    </div>
+    <ng-container *ngFor="let set of sets">
+        <h1>{{set.name}}</h1>
+        <div class="row">
+            <app-products-item *ngFor="let product of products; index as i" [product]="product" [category]="category">
+            </app-products-item>
+            <div class="col">
+                <p>név</p>
+                <p>szett</p>
+                <label class="custom-file-upload">
+                    <input type="file" />
+                    Feltöltés
+                </label>
+                <button (click)="onDelete(user)" type="button" class="btn btn-danger btn-sm">Eltávolítás</button>
+                <button type="button" class="btn btn-dark">Hozzáadás</button>
+            </div>
+        </div>
+
+    </ng-container>
+</div>

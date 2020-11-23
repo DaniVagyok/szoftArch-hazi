@@ -1,34 +1,25 @@
-<div class="p-4">
-    <div class="container">
-        <h1>Belépve mint: Admin/Felhasználó</h1>
-        <h1>Együttes: </h1>
-    </div>
-</div>
-
 <div class="container">
     <div class="row">
         <div class="col-md-4 p-3 text-center">
-            <div class="btn-group-vertical">
-                <div class="btn btn-outline-dark p-3 ">
-                    <a routerLink="objects">Tárgyak</a>
-                </div>
-                <div class="btn btn-outline-dark p-3 ">
-                    <a routerLink="objects">Szettek</a>
-                </div>
-                <div class="btn btn-outline-dark p-3 ">
-                    <a routerLink="objects">Mi van nálam</a>
-                </div>
-            </div>
+            <h1>Menü</h1>
+                <button type="button" 
+                        class="btn btn-dark p-3 btn-block" 
+                        routerLink="products">
+                        Tárgyak
+                </button>
+                <button type="button" 
+                        class="btn btn-dark p-3 btn-block" 
+                        routerLink="sets">
+                        Szettek
+                </button>
+                <button type="button" 
+                        class="btn btn-dark p-3 btn-block" 
+                        routerLink="products">
+                        Mi van nálam
+                </button>
         </div>
         <div class="col-md-4 p-3 text-center">
-            <h1>Tagok</h1>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="E-mail cím" aria-label="Recipient's username"
-                    aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">Felvétel</button>
-                </div>
-            </div>
+            
             <app-users></app-users>
         </div>
         <div class="col-md-4 p-3 text-center">

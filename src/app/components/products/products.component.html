@@ -1,0 +1,22 @@
+<div class="container">
+    <ng-container *ngFor="let category of categories">
+        <div class="mb-3">
+            <h1>{{category}}</h1>
+            <div class="row">
+                <app-products-item *ngFor="let product of products; index as i" [product]="product"
+                    [category]="category">
+                </app-products-item>
+                <div class="col">
+                    <div class="card" style="width: 13rem;">
+                        <div class="card-body">
+                            <h1 class="card-title">Hozzáadás</h1>
+                            <p class="card-text">asd</p>
+                            <p class="card-text">asd</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
