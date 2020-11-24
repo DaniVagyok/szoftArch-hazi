@@ -1,4 +1,4 @@
-﻿using szoftArch_hazi.Models;
+﻿using szoftArch_hazi.Data.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
