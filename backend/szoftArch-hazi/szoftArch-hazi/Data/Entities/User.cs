@@ -8,5 +8,6 @@ namespace szoftArch_hazi.Data.Entities
 {
     public class User : IdentityUser
     {
+        public IEnumerable<Member> Memberships { get; set; }
     }
 }

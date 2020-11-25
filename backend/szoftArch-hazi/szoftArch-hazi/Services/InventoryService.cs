@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using szoftArch_hazi.Data;
+using szoftArch_hazi.Data.Entities;
 using szoftArch_hazi.Models;
 
 namespace szoftArch_hazi.Services
@@ -17,52 +18,58 @@ namespace szoftArch_hazi.Services
             UserManager = userManager;
             Context = context;
         }
-        public Task AddItem(ItemModel item)
+
+        public Task AddItem(int groupId, ItemModel item)
         {
             throw new NotImplementedException();
         }
 
-        public Task AddSet(SetModel set)
+        public Task AddSet(int groupId, SetModel set)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ItemModel>> ListItemsForGroup(int id)
+        public Task AddItemToSet(int setId, ItemModel item)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ItemModel>> ListRentedItemsForMember(int id)
+        public Task RentSetToMember(int groupId, RentModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SetModel>> ListRentedSetsForMemmber(int id)
+        public Task RentItemToMember(int groupId, RentModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SetModel>> ListSetsForGroup(int id)
+        public Task RevokeSetFromMember(int groupId, RentModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task RentItemToMember(RentModel model)
+        public Task RevokeItemFromMember(int groupId, RentModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task RentSetToMember(RentModel model)
+        public Task<IEnumerable<ItemModel>> ListItemsForGroup(int groupId, CategoryModel term)
         {
             throw new NotImplementedException();
         }
 
-        public Task RevokeItemFromMember(RentModel model)
+        public Task<IEnumerable<SetModel>> ListSetsForGroup(int groupId, CategoryModel term)
         {
             throw new NotImplementedException();
         }
 
-        public Task RevokeSetFromMember(RentModel model)
+        public Task<IEnumerable<ItemModel>> ListRentedItemsForMember(int memberId, CategoryModel term)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<SetModel>> ListRentedSetsForMemmber(int memberId, CategoryModel term)
         {
             throw new NotImplementedException();
         }

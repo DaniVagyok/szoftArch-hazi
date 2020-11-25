@@ -17,27 +17,38 @@ namespace szoftArch_hazi.Services
             UserManager = userManager;
             Context = context;
         }
-        public Task AddCategory(CategoryModel category)
+
+        public Task AddGroup(GroupModel group)
         {
             throw new NotImplementedException();
         }
 
-        public Task AddGroup()
+        public Task<IEnumerable<GroupModel>> GetGroupsForCurrentUser()
         {
             throw new NotImplementedException();
         }
 
-        public Task AddMembers(IEnumerable<MemberModel> members)
+        public Task<GroupModel> GetGroup(int groupId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<GroupModel> GetGroupForUser()
+        public Task AddMembers(int groupId, IEnumerable<MemberModel> members)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<MemberModel>> GetUsersNotInGroup()
+        public Task SetAdmin(int groupId, MemberModel member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddCategory(int groupId, CategoryModel category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CategoryModel>> GetCategories(int groupId)
         {
             throw new NotImplementedException();
         }
@@ -47,7 +58,7 @@ namespace szoftArch_hazi.Services
             throw new NotImplementedException();
         }
 
-        public Task SetAdmin(AdminModel admin)
+        public Task<IEnumerable<MemberModel>> GetUsersNotInGroup(int groupId)
         {
             throw new NotImplementedException();
         }

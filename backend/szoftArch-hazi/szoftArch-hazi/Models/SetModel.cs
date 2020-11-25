@@ -7,5 +7,9 @@ namespace szoftArch_hazi.Models
 {
     public class SetModel
     {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public string ThumbnailUrl { get; set; }
+        public string CategoryName { get; set; }
     }
 }

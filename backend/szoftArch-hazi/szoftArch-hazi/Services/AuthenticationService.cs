@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using szoftArch_hazi.Data;
 using szoftArch_hazi.Data.Entities;
+using szoftArch_hazi.Models;
 
 namespace szoftArch_hazi.Services
 {

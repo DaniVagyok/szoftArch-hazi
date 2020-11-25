@@ -6,12 +6,14 @@ namespace szoftArch_hazi.Services
 {
     public interface IGroupService
     {
-        Task AddGroup();
-        Task<GroupModel> GetGroupForUser(); // 1 user 1 group így
-        Task AddMembers(IEnumerable<MemberModel> members);
-        Task SetAdmin(AdminModel admin);
-        Task AddCategory(CategoryModel category);
+        Task AddGroup(GroupModel group);
+        Task<IEnumerable<GroupModel>> GetGroupsForCurrentUser();
+        Task<GroupModel> GetGroup(int groupId);
+        Task AddMembers(int groupId, IEnumerable<MemberModel> members);
+        Task SetAdmin(int groupId, MemberModel member);
+        Task AddCategory(int groupId, CategoryModel category);
+        Task<IEnumerable<CategoryModel>> GetCategories(int groupId);
         Task RemoveCategory(int id);
-        Task<IEnumerable<MemberModel>> GetUsersNotInGroup(); // 1 user 1 group így
+        Task<IEnumerable<MemberModel>> GetUsersNotInGroup(int groupId);
     }
 }

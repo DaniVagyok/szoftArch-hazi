@@ -27,9 +27,9 @@ namespace szoftArch_hazi.Data
 
             modelBuilder.ApplyConfiguration(new GroupConfig());
             modelBuilder.ApplyConfiguration(new MemberConfig());
-            modelBuilder.ApplyConfiguration(new CategoryConfig());
-            modelBuilder.ApplyConfiguration(new ItemConfig());
-            modelBuilder.ApplyConfiguration(new SetConfig());
+            //modelBuilder.ApplyConfiguration(new CategoryConfig());
+            //modelBuilder.ApplyConfiguration(new ItemConfig());
+            //modelBuilder.ApplyConfiguration(new SetConfig());
         }
     }
 }
