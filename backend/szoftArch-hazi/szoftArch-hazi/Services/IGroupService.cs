@@ -9,11 +9,11 @@ namespace szoftArch_hazi.Services
         Task AddGroup(GroupModel group);
         Task<IEnumerable<GroupModel>> GetGroupsForCurrentUser();
         Task<GroupModel> GetGroup(int groupId);
-        Task AddMembers(int groupId, IEnumerable<MemberModel> members);
+        Task AddMember(int groupId, MemberModel member);
         Task SetAdmin(int groupId, MemberModel member);
         Task AddCategory(int groupId, CategoryModel category);
         Task<IEnumerable<CategoryModel>> GetCategories(int groupId);
-        Task RemoveCategory(int id);
-        Task<IEnumerable<MemberModel>> GetUsersNotInGroup(int groupId);
+        Task<IEnumerable<MemberModel>> GetUsersInGroup(int groupId);
+        Task<IEnumerable<UserModel>> GetUsersNotInGroup(int groupId);
     }
 }

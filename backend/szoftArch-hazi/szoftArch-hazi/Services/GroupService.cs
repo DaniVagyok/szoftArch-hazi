@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using szoftArch_hazi.Data;
+using szoftArch_hazi.Data.Entities;
 using szoftArch_hazi.Models;
 
 namespace szoftArch_hazi.Services
@@ -18,49 +20,120 @@ namespace szoftArch_hazi.Services
             Context = context;
         }
 
-        public Task AddGroup(GroupModel group)
+        public async Task AddGroup(GroupModel group)
         {
-            throw new NotImplementedException();
+            var groupEntity = new Group
+            {
+                Name = group.Name,
+            };
+            var entity = Context.Groups.Add(groupEntity);
+            var memberEntity = new Member
+            {
+                UserId = UserManager.GetUserId(),
+                Group = entity.Entity,
+                IsAdmin = true
+            };
+            Context.Members.Add(memberEntity);
+            await Context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<GroupModel>> GetGroupsForCurrentUser()
+        public async Task<IEnumerable<GroupModel>> GetGroupsForCurrentUser()
         {
-            throw new NotImplementedException();
+            return await Context.Groups.Where(g => g.Members.Any(m => m.UserId == UserManager.GetUserId()))
+                .Select(g=> new GroupModel { 
+                    Id=g.Id,
+                    Name = g.Name
+                }).ToListAsync();
         }
 
-        public Task<GroupModel> GetGroup(int groupId)
+        public async Task<GroupModel> GetGroup(int groupId)
         {
-            throw new NotImplementedException();
+            return await Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId())
+                .Select(m=> new GroupModel {
+                    Id = m.Group.Id,
+                    Name = m.Group.Name,
+                    IsAdminInGroup = m.IsAdmin
+                }).FirstOrDefaultAsync();
         }
 
-        public Task AddMembers(int groupId, IEnumerable<MemberModel> members)
+        public async Task AddMember(int groupId, MemberModel member)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                var memberEntity = new Member
+                {
+                    GroupId = groupId,
+                    UserId = member.UserId,
+                    IsAdmin = false
+                };
+                Context.Members.Add(memberEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task SetAdmin(int groupId, MemberModel member)
+        public async Task SetAdmin(int groupId, MemberModel member)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                var memberEntity = await Context.Members.FirstOrDefaultAsync(m => m.Id == member.Id);
+                memberEntity.IsAdmin = member.IsAdmin ?? false;
+                Context.Members.Update(memberEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task AddCategory(int groupId, CategoryModel category)
+        public async Task AddCategory(int groupId, CategoryModel category)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                var categoryEntity = new Category
+                {
+                    Name = category.Name,
+                    GroupId = groupId
+                };
+                Context.Categories.Add(categoryEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<CategoryModel>> GetCategories(int groupId)
+        public async Task<IEnumerable<CategoryModel>> GetCategories(int groupId)
         {
-            throw new NotImplementedException();
+            return await Context.Categories.Where(c => c.GroupId == groupId)
+                    .Select(c => new CategoryModel
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    }).ToListAsync();
         }
 
-        public Task RemoveCategory(int id)
+        public async Task<IEnumerable<UserModel>> GetUsersNotInGroup(int groupId)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                return await Context.Users.Where(u => !u.Memberships.Any(m=>m.GroupId == groupId))
+                    .Select(u => new UserModel
+                    {
+                        Id = u.Id,
+                        UserName = u.UserName
+                    }).ToListAsync();
+            }
+            return null;
         }
 
-        public Task<IEnumerable<MemberModel>> GetUsersNotInGroup(int groupId)
+        public async Task<IEnumerable<MemberModel>> GetUsersInGroup(int groupId)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                return await Context.Members.Where(m => m.GroupId == groupId)
+                    .Select(m => new MemberModel { 
+                        Id = m.Id,
+                        UserId = m.UserId,
+                        GroupId = m.GroupId,
+                        UserName = m.User.UserName,
+                        IsAdmin = m.IsAdmin
+                    }).ToListAsync();
+            }
+            return null;
         }
     }
 }

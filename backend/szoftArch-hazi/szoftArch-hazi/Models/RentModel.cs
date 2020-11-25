@@ -8,7 +8,6 @@ namespace szoftArch_hazi.Models
     public class RentModel
     {
         public int Id { get; set; }
-        public int GroupId { get; set; }
-        public string UserId { get; set; }
+        public int MemberId { get; set; }
     }
 }

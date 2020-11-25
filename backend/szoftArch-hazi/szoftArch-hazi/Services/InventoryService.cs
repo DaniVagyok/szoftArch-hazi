@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,59 +20,191 @@ namespace szoftArch_hazi.Services
             Context = context;
         }
 
-        public Task AddItem(int groupId, ItemModel item)
+        public async Task AddItem(int groupId, ItemModel item)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m=>m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                var itemEntity = new Item
+                {
+                    Name = item.Name,
+                    ThumbnailUrl = item.ThumbnailUrl,
+                    GroupId = groupId,
+                    Category = Context.Categories.Where(c => c.Name == item.CategoryName).FirstOrDefault(),
+                };
+                Context.Items.Add(itemEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task AddSet(int groupId, SetModel set)
+        public async Task AddSet(int groupId, SetModel set)
         {
-            throw new NotImplementedException();
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                var newEntity = new Set
+                {
+                    Name = set.Name,
+                    ThumbnailUrl = set.ThumbnailUrl,
+                    GroupId = groupId,
+                    Category = Context.Categories.Where(c => c.Name == set.CategoryName).FirstOrDefault(),
+                };
+                Context.Sets.Add(newEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task AddItemToSet(int setId, ItemModel item)
+        public async Task AddItemToSet(int setId, ItemModel item)
         {
-            throw new NotImplementedException();
+            var itemEntity = Context.Items.SingleOrDefault(i => i.Id == item.Id);
+            if (itemEntity == null)
+            {
+                return;
+            }
+            if (Context.Members.Where(m => m.GroupId == itemEntity.GroupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                if (itemEntity != null)
+                {
+                    itemEntity.SetId = setId;
+                }
+                Context.Items.Update(itemEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task RentSetToMember(int groupId, RentModel model)
+        public async Task RentSetToMember(RentModel set)
         {
-            throw new NotImplementedException();
+            var setEntity = Context.Sets.SingleOrDefault(s => s.Id == set.Id);
+            if (setEntity == null)
+            {
+                return;
+            }
+            if (Context.Members.Where(m => m.GroupId == setEntity.GroupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                if (setEntity != null)
+                {
+                    setEntity.MemberId = set.MemberId;
+                }
+                Context.Sets.Update(setEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task RentItemToMember(int groupId, RentModel model)
+        public async Task RentItemToMember(RentModel item)
         {
-            throw new NotImplementedException();
+            var itemEntity = Context.Items.SingleOrDefault(s => s.Id == item.Id);
+            if (itemEntity == null)
+            {
+                return;
+            }
+            if (Context.Members.Where(m => m.GroupId == itemEntity.GroupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                if (itemEntity != null)
+                {
+                    itemEntity.MemberId = item.MemberId;
+                }
+                Context.Items.Update(itemEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task RevokeSetFromMember(int groupId, RentModel model)
+        public async Task RevokeSetFromMember(int setId)
         {
-            throw new NotImplementedException();
+            var setEntity = Context.Sets.SingleOrDefault(s => s.Id == setId);
+            if (setEntity == null)
+            {
+                return;
+            }
+            if (Context.Members.Where(m => m.GroupId == setEntity.GroupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                if (setEntity != null)
+                {
+                    setEntity.MemberId = null;
+                }
+                Context.Sets.Update(setEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task RevokeItemFromMember(int groupId, RentModel model)
+        public async Task RevokeItemFromMember(int itemId)
         {
-            throw new NotImplementedException();
+            var itemEntity = Context.Items.SingleOrDefault(s => s.Id == itemId);
+            if (itemEntity == null)
+            {
+                return;
+            }
+            if (Context.Members.Where(m => m.GroupId == itemEntity.GroupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                if (itemEntity != null)
+                {
+                    itemEntity.MemberId = null;
+                }
+                Context.Items.Update(itemEntity);
+                await Context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<ItemModel>> ListItemsForGroup(int groupId, CategoryModel term)
+        public async Task<IEnumerable<ItemModel>> ListItemsForGroup(int groupId, CategoryModel term)
         {
-            throw new NotImplementedException();
+            return await Context.Items.Where(i=>i.GroupId == groupId &&
+            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+                .Select(i=> new ItemModel { 
+                    Id = i.Id,
+                    Name = i.Name,
+                    ThumbnailUrl = i.ThumbnailUrl,
+                    CategoryName = i.Category != null ? i.Category.Name : ""
+                }).ToListAsync();
         }
 
-        public Task<IEnumerable<SetModel>> ListSetsForGroup(int groupId, CategoryModel term)
+        public async Task<IEnumerable<SetModel>> ListSetsForGroup(int groupId, CategoryModel term)
         {
-            throw new NotImplementedException();
+            return await Context.Sets.Where(i => i.GroupId == groupId &&
+            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+                .Select(s => new SetModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ThumbnailUrl = s.ThumbnailUrl,
+                    CategoryName = s.Category != null ? s.Category.Name : "",
+                    Items = s.Items.Select(i=> new ItemModel
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        ThumbnailUrl = i.ThumbnailUrl,
+                        CategoryName = i.Category != null ? i.Category.Name : ""
+                    })
+                }).ToListAsync();
         }
 
-        public Task<IEnumerable<ItemModel>> ListRentedItemsForMember(int memberId, CategoryModel term)
+        public async Task<IEnumerable<ItemModel>> ListRentedItemsForMember(int memberId, CategoryModel term)
         {
-            throw new NotImplementedException();
+            return await Context.Items.Where(i => i.MemberId == memberId &&
+            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+                .Select(i => new ItemModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    ThumbnailUrl = i.ThumbnailUrl,
+                    CategoryName = i.Category != null ? i.Category.Name : ""
+                }).ToListAsync();
         }
 
-        public Task<IEnumerable<SetModel>> ListRentedSetsForMemmber(int memberId, CategoryModel term)
+        public async Task<IEnumerable<SetModel>> ListRentedSetsForMemmber(int memberId, CategoryModel term)
         {
-            throw new NotImplementedException();
+            return await Context.Sets.Where(i => i.MemberId == memberId &&
+            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+                .Select(s => new SetModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ThumbnailUrl = s.ThumbnailUrl,
+                    CategoryName = s.Category != null ? s.Category.Name : "",
+                    Items = s.Items.Select(i => new ItemModel
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        ThumbnailUrl = i.ThumbnailUrl,
+                        CategoryName = i.Category != null ? i.Category.Name : ""
+                    })
+                }).ToListAsync();
         }
     }
 }
