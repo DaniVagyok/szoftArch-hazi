@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using szoftArch_hazi.Data;
@@ -13,39 +15,51 @@ namespace szoftArch_hazi.Services
     {
         private ILoggedInUser UserManager { get; }
         private ApplicationDbContext Context { get; }
+        private IWebHostEnvironment Env { get; }
 
-        public InventoryService(ApplicationDbContext context, ILoggedInUser userManager)
+        public InventoryService(ApplicationDbContext context, ILoggedInUser userManager, IWebHostEnvironment env)
         {
             UserManager = userManager;
             Context = context;
+            Env = env;
         }
 
-        public async Task AddItem(int groupId, ItemModel item)
+        public async Task AddItem(int groupId, NewItemModel item)
         {
             if (Context.Members.Where(m=>m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
             {
                 var itemEntity = new Item
                 {
                     Name = item.Name,
-                    ThumbnailUrl = item.ThumbnailUrl,
+                    ThumbnailUrl = SaveImage(item),
                     GroupId = groupId,
-                    Category = Context.Categories.Where(c => c.Name == item.CategoryName).FirstOrDefault(),
+                    CategoryId = item.CategoryId
                 };
                 Context.Items.Add(itemEntity);
                 await Context.SaveChangesAsync();
             }
         }
+        public async Task<DownloadModel> GetImage(int id)
+        {
+            var file = await Context.Items.SingleOrDefaultAsync(f => f.Id == id);
+            var fileInfo = new FileInfo(file.ThumbnailUrl);
 
-        public async Task AddSet(int groupId, SetModel set)
+            return new DownloadModel
+            {
+                Content = File.ReadAllBytes(fileInfo.FullName),
+                FileName = fileInfo.Name,
+                ContentType = "image/png"
+            };
+        }
+        public async Task AddSet(int groupId, NewSetModel set)
         {
             if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
             {
                 var newEntity = new Set
                 {
                     Name = set.Name,
-                    ThumbnailUrl = set.ThumbnailUrl,
                     GroupId = groupId,
-                    Category = Context.Categories.Where(c => c.Name == set.CategoryName).FirstOrDefault(),
+                    CategoryId = set.CategoryId
                 };
                 Context.Sets.Add(newEntity);
                 await Context.SaveChangesAsync();
@@ -142,69 +156,79 @@ namespace szoftArch_hazi.Services
             }
         }
 
-        public async Task<IEnumerable<ItemModel>> ListItemsForGroup(int groupId, CategoryModel term)
+        public async Task<IEnumerable<ItemModel>> ListItemsForGroup(int groupId, string term)
         {
-            return await Context.Items.Where(i=>i.GroupId == groupId &&
-            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+            return await Context.Items.Where(i=>i.GroupId == groupId && (String.IsNullOrEmpty(term) || i.Name.Contains(term)))
                 .Select(i=> new ItemModel { 
                     Id = i.Id,
                     Name = i.Name,
-                    ThumbnailUrl = i.ThumbnailUrl,
                     CategoryName = i.Category != null ? i.Category.Name : ""
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<SetModel>> ListSetsForGroup(int groupId, CategoryModel term)
+        public async Task<IEnumerable<SetModel>> ListSetsForGroup(int groupId, string term)
         {
-            return await Context.Sets.Where(i => i.GroupId == groupId &&
-            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+            return await Context.Sets.Where(i => i.GroupId == groupId && (String.IsNullOrEmpty(term) || i.Name.Contains(term)))
                 .Select(s => new SetModel
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    ThumbnailUrl = s.ThumbnailUrl,
                     CategoryName = s.Category != null ? s.Category.Name : "",
                     Items = s.Items.Select(i=> new ItemModel
                     {
                         Id = i.Id,
                         Name = i.Name,
-                        ThumbnailUrl = i.ThumbnailUrl,
                         CategoryName = i.Category != null ? i.Category.Name : ""
                     })
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<ItemModel>> ListRentedItemsForMember(int memberId, CategoryModel term)
+        public async Task<IEnumerable<ItemModel>> ListRentedItemsForMember(int memberId, string term)
         {
-            return await Context.Items.Where(i => i.MemberId == memberId &&
-            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+            return await Context.Items.Where(i => i.MemberId == memberId && (String.IsNullOrEmpty(term) || i.Name.Contains(term)))
                 .Select(i => new ItemModel
                 {
                     Id = i.Id,
                     Name = i.Name,
-                    ThumbnailUrl = i.ThumbnailUrl,
                     CategoryName = i.Category != null ? i.Category.Name : ""
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<SetModel>> ListRentedSetsForMemmber(int memberId, CategoryModel term)
+        public async Task<IEnumerable<SetModel>> ListRentedSetsForMemmber(int memberId, string term)
         {
-            return await Context.Sets.Where(i => i.MemberId == memberId &&
-            ((!String.IsNullOrEmpty(term.Name) && i.Category.Name == term.Name) || (term.Id.HasValue && i.CategoryId == term.Id)))
+            return await Context.Sets.Where(i => i.MemberId == memberId && (String.IsNullOrEmpty(term) || i.Name.Contains(term)))
                 .Select(s => new SetModel
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    ThumbnailUrl = s.ThumbnailUrl,
                     CategoryName = s.Category != null ? s.Category.Name : "",
                     Items = s.Items.Select(i => new ItemModel
                     {
                         Id = i.Id,
                         Name = i.Name,
-                        ThumbnailUrl = i.ThumbnailUrl,
                         CategoryName = i.Category != null ? i.Category.Name : ""
                     })
                 }).ToListAsync();
+        }
+        private string SaveImage(NewItemModel newFile)
+        {
+            var subFolder = @"files\images";
+            string path = Path.Combine(Env.ContentRootPath, subFolder);
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            var fileName = $"{newFile.Name}_{Context.Items.Count()}.png";
+            string filePath = Path.Combine(path, fileName);
+
+            byte[] fileBytes;
+            using (var ms = new MemoryStream())
+            {
+                newFile.File.CopyTo(ms);
+                fileBytes = ms.ToArray();
+                File.WriteAllBytes(filePath, fileBytes);
+            }
+            return filePath;
         }
     }
 }

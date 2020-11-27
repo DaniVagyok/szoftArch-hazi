@@ -10,7 +10,7 @@ using szoftArch_hazi.Data;
 namespace szoftArch_hazi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201125153930_init")]
+    [Migration("20201127171800_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -353,9 +353,6 @@ namespace szoftArch_hazi.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

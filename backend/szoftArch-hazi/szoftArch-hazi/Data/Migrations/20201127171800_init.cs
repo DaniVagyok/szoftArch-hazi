@@ -73,7 +73,6 @@ namespace szoftArch_hazi.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    ThumbnailUrl = table.Column<string>(nullable: true),
                     GroupId = table.Column<int>(nullable: false),
                     MemberId = table.Column<int>(nullable: true),
                     CategoryId = table.Column<int>(nullable: true)

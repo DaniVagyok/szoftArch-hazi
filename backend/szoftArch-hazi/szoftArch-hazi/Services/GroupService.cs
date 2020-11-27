@@ -55,6 +55,16 @@ namespace szoftArch_hazi.Services
                     IsAdminInGroup = m.IsAdmin
                 }).FirstOrDefaultAsync();
         }
+        public async Task<GroupModel> GetGroup()
+        {
+            return await Context.Members.Where(m =>m.UserId == UserManager.GetUserId())
+                .Select(m => new GroupModel
+                {
+                    Id = m.Group.Id,
+                    Name = m.Group.Name,
+                    IsAdminInGroup = m.IsAdmin
+                }).FirstOrDefaultAsync();
+        }
 
         public async Task AddMember(int groupId, MemberModel member)
         {
@@ -96,9 +106,9 @@ namespace szoftArch_hazi.Services
             }
         }
 
-        public async Task<IEnumerable<CategoryModel>> GetCategories(int groupId)
+        public async Task<IEnumerable<CategoryModel>> GetCategories(int groupId, string term)
         {
-            return await Context.Categories.Where(c => c.GroupId == groupId)
+            return await Context.Categories.Where(c => c.GroupId == groupId && (String.IsNullOrEmpty(term) || c.Name.Contains(term)))
                     .Select(c => new CategoryModel
                     {
                         Id = c.Id,
@@ -106,11 +116,11 @@ namespace szoftArch_hazi.Services
                     }).ToListAsync();
         }
 
-        public async Task<IEnumerable<UserModel>> GetUsersNotInGroup(int groupId)
+        public async Task<IEnumerable<UserModel>> GetUsersNotInGroup(int groupId, string term)
         {
             if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
             {
-                return await Context.Users.Where(u => !u.Memberships.Any(m=>m.GroupId == groupId))
+                return await Context.Users.Where(u => !u.Memberships.Any() && (String.IsNullOrEmpty(term) || u.UserName.Contains(term)))
                     .Select(u => new UserModel
                     {
                         Id = u.Id,
@@ -120,17 +130,31 @@ namespace szoftArch_hazi.Services
             return null;
         }
 
-        public async Task<IEnumerable<MemberModel>> GetUsersInGroup(int groupId)
+        public async Task<IEnumerable<MemberModel>> GetUsersInGroup(int groupId, string term)
         {
             if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
             {
-                return await Context.Members.Where(m => m.GroupId == groupId)
+                return await Context.Members.Where(m => m.GroupId == groupId && (String.IsNullOrEmpty(term) || m.User.UserName.Contains(term)))
                     .Select(m => new MemberModel { 
                         Id = m.Id,
                         UserId = m.UserId,
                         GroupId = m.GroupId,
                         UserName = m.User.UserName,
                         IsAdmin = m.IsAdmin
+                    }).ToListAsync();
+            }
+            return null;
+        }
+
+        public async Task<IEnumerable<UserModel>> GetUsersNotInAnyGroup(int groupId, string term)
+        {
+            if (Context.Members.Where(m => m.GroupId == groupId && m.UserId == UserManager.GetUserId() && m.IsAdmin).SingleOrDefault() != null)
+            {
+                return await Context.Users.Where(u => !u.Memberships.Any(m => m.GroupId == groupId) && (String.IsNullOrEmpty(term) || u.UserName.Contains(term)))
+                    .Select(u => new UserModel
+                    {
+                        Id = u.Id,
+                        UserName = u.UserName
                     }).ToListAsync();
             }
             return null;
