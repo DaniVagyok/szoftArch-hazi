@@ -86,7 +86,7 @@ namespace szoftArch_hazi.Services
 
         public async Task RentSetToMember(RentModel set)
         {
-            var setEntity = Context.Sets.SingleOrDefault(s => s.Id == set.Id);
+            var setEntity = await Context.Sets.SingleOrDefaultAsync(s => s.Id == set.Id);
             if (setEntity == null)
             {
                 return;
@@ -104,7 +104,7 @@ namespace szoftArch_hazi.Services
 
         public async Task RentItemToMember(RentModel item)
         {
-            var itemEntity = Context.Items.SingleOrDefault(s => s.Id == item.Id);
+            var itemEntity = await Context.Items.SingleOrDefaultAsync(s => s.Id == item.Id);
             if (itemEntity == null)
             {
                 return;
@@ -122,7 +122,7 @@ namespace szoftArch_hazi.Services
 
         public async Task RevokeSetFromMember(int setId)
         {
-            var setEntity = Context.Sets.SingleOrDefault(s => s.Id == setId);
+            var setEntity = await Context.Sets.SingleOrDefaultAsync(s => s.Id == setId);
             if (setEntity == null)
             {
                 return;
@@ -140,7 +140,7 @@ namespace szoftArch_hazi.Services
 
         public async Task RevokeItemFromMember(int itemId)
         {
-            var itemEntity = Context.Items.SingleOrDefault(s => s.Id == itemId);
+            var itemEntity = await Context.Items.SingleOrDefaultAsync(s => s.Id == itemId);
             if (itemEntity == null)
             {
                 return;
