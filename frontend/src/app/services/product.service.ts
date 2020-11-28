@@ -18,15 +18,23 @@ const httpOptions = {
 })
 export class ProductService {
 
- /*
-  TODO url beállítása
-  url: string = '';
-  */
-
-  private productsUrl="http://localhost:3000/api/products"
+ baseUrl = environment.baseUrl;
+ private productsUrl= this.baseUrl + `/api/products`;
 
   constructor(private http:HttpClient, public dialog:MatDialog) { }
 
+  addCategory(addCategoryName: string) {
+    return this.http.post<any>(this.productsUrl, addCategoryName)
+  }
+
+  assignProduct(id:number, name: string){
+    console.log(id, name)
+  }
+
+  takeBackProduct(id:number){
+    console.log(id)
+  }
+  
   getProducts(){
     return this.http.get<any>(this.productsUrl)
 

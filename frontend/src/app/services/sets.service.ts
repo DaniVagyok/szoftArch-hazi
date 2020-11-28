@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 import { Category } from "../models/product";
 
@@ -8,12 +9,26 @@ import { Category } from "../models/product";
 })
 export class SetsService {
 
-  /*
-  TODO url beállítása
-  url: string = '';
-  */
+  baseUrl = environment.baseUrl;
+  private setsUrl= this.baseUrl + `/api/sets`;
 
   constructor(private http: HttpClient) { }
+
+  addSet(name:string){
+    return this.http.post<any>(this.setsUrl, name)
+  }
+
+  assignSet(id: number, name: string){
+    return this.http.post<any>(this.setsUrl, {id, name})
+  }
+
+  takeBackSet(id:number){
+    return this.http.post<any>(this.setsUrl, id)
+  }
+
+  addProductToSet(setid:number, selectedProduct:string){
+    return this.http.post<any>(this.setsUrl, {setid, selectedProduct})
+  }
 
   getSets() {
     return [
@@ -31,15 +46,6 @@ export class SetsService {
             imgsrc: "https://www.neptanckellek.hu/img/42348/catpic_489614/153x153/489614.webp?time=1545404367"
           },
           {
-            id: 3,
-            hasOwner: false,
-            ownerId: 2,
-            name: 'Cilinder',
-            category: Category.Hat,
-            set: 'Moldvai csángó',
-            imgsrc: "https://www.wildwest.hu/upload/pics/products/img/_crop/_1000w_1000h_3598.jpg"
-          },
-          {
             id: 4,
             hasOwner: true,
             ownerId: 0,
@@ -49,22 +55,13 @@ export class SetsService {
             imgsrc: "https://static.wikia.nocookie.net/leagueoflegends/images/6/68/Thornmail_item_old.png/revision/latest/top-crop/width/450/height/450?cb=20180514001502"
           },
         ],
-        hasOwner: true,
-        ownerId: 1,
+        hasOwner: false,
+        ownerId: null,
       },
       {
         id: 2,
         name: 'Palóc folklór szett',
         products: [
-          {
-            id: 1,
-            hasOwner: true,
-            ownerId: 1,
-            name: 'Fehér ing',
-            category: Category.Shirt,
-            set: 'Palóc folklór szett',
-            imgsrc: "https://www.neptanckellek.hu/img/42348/catpic_122501/153x153/122501.webp?time=1545404307"
-          },
           {
             id: 5,
             hasOwner: true,
@@ -77,7 +74,7 @@ export class SetsService {
           {
             id: 6,
             hasOwner: true,
-            ownerId: 0,
+            ownerId: 1,
             name: 'Meg Lépő',
             category: Category.Boots,
             set: 'Palóc folklór szett',
@@ -85,30 +82,8 @@ export class SetsService {
           }
         ],
         hasOwner: true,
-        ownerId: 2,
+        ownerId: 1,
       },
     ]
-
-    /*
-    TODO: swap getUsers(), NEED TEAM IN THE REQUEST
- 
-    getUsers(): Observables<User[]> {
-      return this.http.get<User[]>(this.url);
-    }
- 
-    TODO: uncomment
- 
-    toggleIsAdmin(user: User):Observable<Any>{
-      const userIdUrl = `${this.url}/${user.id}`;
-      return this.http.put(userIdUrl, user, httpOptions);
-    }
- 
-    TODO: uncomment
- 
-    deleteUser(user: User):Observable<User>{
-      const userIdUrl = `${this.url}/${user.id}`;
-      return this.http.delete<User>(userIdUrl, httpOptions);
-    }
-    */
   }
 }

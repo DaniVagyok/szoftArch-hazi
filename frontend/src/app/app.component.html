@@ -8,19 +8,31 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/products" routerLinkActive="active">Tárgyak</a>
+        <a class="nav-link" *ngIf="authService.loggedIn()" routerLink="/products" routerLinkActive="active">Tárgyak</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/sets" routerLinkActive="active">Szettek</a>
+        <a class="nav-link" *ngIf="authService.loggedIn()" routerLink="/sets" routerLinkActive="active">Szettek</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.loggedIn()" routerLink="/my-stuff" routerLinkActive="active">Dolgaim</a>
       </li>
     </ul>
     <ul class="navbar-nav">
-      <a class="nav-link" *ngIf="!authService.loggedIn()" routerLink="/login" routerLinkActive="active">Bejelentkezés</a>
-      <a class="nav-link" *ngIf="!authService.loggedIn()"  routerLink="/register" routerLinkActive="active">Regisztráció</a>
-      <a class="nav-link" style="cursor:pointer" *ngIf="authService.loggedIn()" (click)="authService.logoutUser()">Kijelentkezés</a>
+      <a class="nav-link" *ngIf="!authService.loggedIn()" routerLink="/login"
+        routerLinkActive="active">Bejelentkezés</a>
+      <a class="nav-link" *ngIf="!authService.loggedIn()" routerLink="/register"
+        routerLinkActive="active">Regisztráció</a>
+      <a class="nav-link" style="cursor:pointer" *ngIf="authService.loggedIn()"
+        (click)="authService.logoutUser()">Kijelentkezés</a>
     </ul>
   </div>
 </nav>
+
 <div class="container">
-  <router-outlet></router-outlet>
+  <div *ngIf="!authService.getGroup()&&authService.loggedIn()">
+    <app-create-group></app-create-group>
+  </div>
+  <div *ngIf="authService.getGroup() || !authService.loggedIn()">
+    <router-outlet></router-outlet>
+  </div>
 </div>
