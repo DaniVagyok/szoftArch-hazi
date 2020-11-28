@@ -9,6 +9,8 @@ export class AuthService {
 
   private registerUrl="http://localhost:3000/api/register"
   private loginUrl="http://localhost:3000/api/login"
+  private groupUrl="http://localhost:3000/api/group"
+
 
   constructor(private http: HttpClient,
               private router: Router) { }
@@ -28,6 +30,16 @@ export class AuthService {
   logoutUser(){
     localStorage.removeItem('token')
     this.router.navigate(['/login'])
+  }
+
+  getGroup(){
+    
+    return true
+    //return this.http.get<any>(this.groupUrl)
+  }
+
+  createGroup() {
+    
   }
 
   getToken(){

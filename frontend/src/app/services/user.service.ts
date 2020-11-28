@@ -29,10 +29,10 @@ export class UserService {
         isAdmin: true,
         email: 'user1@gmail.com',
         password: 'asd',
-        firstName: 'jack2',
+        firstName: 'jack',
         lastName: 'bauer',
         token: 'token',
-        group: null,
+        group: 'csopi1',
       },
       {
         id: 2,

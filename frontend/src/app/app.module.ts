@@ -23,6 +23,8 @@ import { AuthService } from "./services/auth.service";
 import { ProductService } from './services/Product.service';
 import { AuthGuard } from './services/auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { CreateGroupComponent } from './components/create-group/create-group.component';
+import { MyStuffComponent } from './components/my-stuff/my-stuff.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     ProductsItemComponent,
     SetsComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    CreateGroupComponent,
+    MyStuffComponent
   ],
   imports: [
     BrowserModule,

@@ -1,21 +1,51 @@
 <div class="container">
+    <div class="input-group mb-3">
+        <input type="text" [(ngModel)]="searchValue" id="search" class="form-control" placeholder="Keresendő tárgy neve"
+            aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-dark" type="button" (click)="applyFilter(searchValue)">Keresés</button>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-dark" type="button" (click)="resetFilter()">Reset</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 p-3 text-center">
+            <h1>Tárgy felvétele</h1>
+            <input type="text" [(ngModel)]="addProductName" id="prodName" class="form-control mb-3"
+                placeholder="Új tárgy neve" aria-label="Új tárgy neve">
+
+            <select class="form-control mb-3" (change)="selectChangeHandler($event)">
+                <option value="" selected disabled>Válassz kategóriát</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+
+            <div class="input-group mb-3">
+                <input type="file" [(ngModel)]="addFile" id="fileObj" class="form-control"
+                    placeholder="Feltöltendő fájl" aria-label="Feltöltendő fájl" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-dark" type="button" (click)="applyFilter(searchValue)">Feltöltés</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 p-3 text-center">
+            <h1>Kategória felvétele</h1>
+            <div class="input-group mb-3">
+                <input type="text" [(ngModel)]="addCategoryName" id="categName" class="form-control"
+                    placeholder="Új kategória neve" aria-label="Új kategória neve" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-dark" type="button" (click)="addCategory(addCategoryName)">Hozzáadás</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <ng-container *ngFor="let category of categories">
         <div class="mb-3">
             <h1>{{category}}</h1>
             <div class="row">
-                <app-products-item *ngFor="let product of products; index as i" [product]="product"
+                <app-products-item *ngFor="let product of filtered; index as i" [product]="product"
                     [category]="category">
                 </app-products-item>
-                <div class="col">
-                    <div class="card" style="width: 13rem;">
-                        <div class="card-body">
-                            <h1 class="card-title">Hozzáadás</h1>
-                            <p class="card-text">asd</p>
-                            <p class="card-text">asd</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </ng-container>
