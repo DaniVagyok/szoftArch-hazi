@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
 
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
+import { User } from '../models';
+
+@Component({ 
+    templateUrl: 'home.component.html' ,
+    selector: 'home-component',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+    user: User;
+
+    constructor() {
+    }
 }

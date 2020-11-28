@@ -1,0 +1,18 @@
+<div class="container">
+    <h1>Tárgyaim</h1>
+    <div class="row mb-3">
+        <app-products-item *ngFor="let product of products; index as i" [product]="product" [myId]="myId">
+        </app-products-item>
+    </div>
+
+    <h1>Szettjeim</h1>
+    <ng-container *ngFor="let set of sets">
+        <div *ngIf="myId===set.ownerId" class="mb-3 p-3 border">
+            <h1>{{set.name}}</h1>
+            <div class="row">
+                <app-products-item *ngFor="let product of set.products; index as i" [product]="product" [myId]="myId">
+                </app-products-item>
+            </div>
+        </div>
+    </ng-container>
+</div>

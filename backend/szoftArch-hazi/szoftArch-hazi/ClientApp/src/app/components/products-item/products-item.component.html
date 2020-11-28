@@ -1,0 +1,58 @@
+<div *ngIf="product.category===category&&category">
+    <div class="wrapper mx-3">
+        <div class="card">
+            <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap">
+            <div class="card-body">
+                <h1 class="card-title mb-1">{{ product.name }}</h1>
+                <p *ngIf="product.hasOwner" class="card-text">Nála van: {{ product.ownerId }}</p>
+                <div *ngIf="!product.hasOwner">
+                    <select type="text" class="m-1 w-100" [(ngModel)]="assignNameValue" id="selectName">
+                        <option *ngFor="let user of users" value="user.firstName">{{user.lastName}} {{user.firstName}}
+                        </option>
+                    </select>
+                    <div class="input-group-append m-1">
+                        <button type="button" class="w-100" (click)="assignProduct(product.id)">Kiadás</button>
+                    </div>
+                </div>
+                <p *ngIf="product.set" class="card-text">Szett: {{ product.set }}</p>
+                <div *ngIf="!product.set">
+                    <select type="text" class="m-1 w-100" [(ngModel)]="assignSetValue" id="selectSet">
+                        <option *ngFor="let set of sets" value="set.name">{{set.name}}</option>
+                    </select>
+                    <div class="input-group-append m-1">
+                        <button type="button" class="w-100" (click)="assignProductToSet(product.id)">Szetthez
+                            adás</button>
+                    </div>
+                </div>
+                <button *ngIf="product.hasOwner" type="button" class="w-100"
+                    (click)="takeBackProduct(product.id)">Visszavétel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="myId&&myId===product.ownerId">
+    <div class="wrapper mx-3">
+        <div class="card">
+            <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap">
+            <div class="card-body">
+                <h1 class="card-title">{{ product.name }}</h1>
+                <p class="card-text">Szett: {{ product.set }}</p>
+                <p class="card-text">Kategória: {{ product.category }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!category&&!myId">
+    <div class="wrapper mx-3">
+        <div class="card">
+            <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap">
+            <div class="card-body">
+                <h1 class="card-title">{{ product.name }}</h1>
+                <p class="card-text">Nála van: {{ product.ownerId }}</p>
+                <p class="card-text">Kategória: {{ product.category }}</p>
+            </div>
+        </div>
+    </div>
+</div>
