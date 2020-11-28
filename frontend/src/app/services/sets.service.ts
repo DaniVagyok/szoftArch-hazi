@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 import { Category } from "../models/product";
 
@@ -8,13 +9,8 @@ import { Category } from "../models/product";
 })
 export class SetsService {
 
-  
-  private setsUrl="http://localhost:3000/api/sets"
-
-  /*
-  TODO url beállítása
-  url: string = '';
-  */
+  baseUrl = environment.baseUrl;
+  private setsUrl= this.baseUrl + `/api/sets`;
 
   constructor(private http: HttpClient) { }
 

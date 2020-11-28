@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { User } from '../models/user';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,10 +16,8 @@ const httpOptions = {
 })
 export class UserService {
 
-  /*
-  TODO url beállítása
-  url: string = '';
-  */
+  baseUrl = environment.baseUrl;
+  private usersUrl= this.baseUrl + `/api/users`;
 
   constructor(private http:HttpClient) { }
 

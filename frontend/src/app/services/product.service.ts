@@ -18,13 +18,8 @@ const httpOptions = {
 })
 export class ProductService {
 
-
- /*
-  TODO url beállítása
-  url: string = '';
-  */
-
-  private productsUrl="http://localhost:3000/api/products"
+ baseUrl = environment.baseUrl;
+ private productsUrl= this.baseUrl + `/api/products`;
 
   constructor(private http:HttpClient, public dialog:MatDialog) { }
 

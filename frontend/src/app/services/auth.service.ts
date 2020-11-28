@@ -1,15 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private registerUrl="http://localhost:3000/api/register"
-  private loginUrl="http://localhost:3000/api/login"
-  private groupUrl="http://localhost:3000/api/group"
+  baseUrl = environment.baseUrl;
+  
+  private registerUrl=this.baseUrl + `/api/register`;
+  private loginUrl=this.baseUrl + `/api/login`;
+  private groupUrl=this.baseUrl + `/api/group`;
 
 
   constructor(private http: HttpClient,
