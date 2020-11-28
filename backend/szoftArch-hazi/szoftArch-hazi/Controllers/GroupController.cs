@@ -41,7 +41,7 @@ namespace szoftArch_hazi.Controllers
         {
             return await GroupService.GetGroup();
         }
-        [HttpGet("{groupId}")]
+        [HttpPut("{groupId}/member")]
         public async Task AddMember(int groupId, MemberModel member)
         {
             await GroupService.AddMember(groupId,member);

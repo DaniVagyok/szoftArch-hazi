@@ -19,22 +19,24 @@ const httpOptions = {
 export class ProductService {
 
  baseUrl ='';// environment.baseUrl;
- private productsUrl= this.baseUrl + `/api/products`;
+ private productsUrl= this.baseUrl + `/api/inventory`;
 
   constructor(private http:HttpClient, public dialog:MatDialog) { }
 
-  addCategory(addCategoryName: string) {
+  addCategory(addCategoryName: string) { // POST: "{groupId}/category", {name}
     return this.http.post<any>(this.productsUrl, addCategoryName)
   }
 
-  assignProduct(id:number, name: string){
+  assignProduct(id:number, name: string){ // POST: "productUrl + /rent/set", {id, memberId}
     console.log(id, name)
   }
 
-  takeBackProduct(id:number){
+  takeBackProduct(id:number){ // POST: "productUrl + /revoke/set", itemId
     console.log(id)
   }
   
+//sajat productok // GET: "productUrl + /{memberId}/rent/item", term
+                  // GET: "productUrl + /{groupId}/item", term
   getProducts(){
     return this.http.get<any>(this.productsUrl)
 
@@ -59,7 +61,11 @@ export class ProductService {
     }
     */
   }
-
+//POST: "productUrl+  /item", {} <- ennek a product modellnek a tartalmát még csiszolom majd
+/*form data:
+string name
+number? categoryId
+ File file*/
   createProduct(newProduct: Product) {
     
     

@@ -38,7 +38,7 @@ namespace szoftArch_hazi.Services
             var user = new User
             {
                 Email = model.Email.Trim(),
-                UserName = model.UserName.Trim()
+                UserName = model.UserName.Trim() ?? "balazs" 
             };
 
             var result = await UserManager.CreateAsync(user, model.Password);
@@ -47,7 +47,7 @@ namespace szoftArch_hazi.Services
         }
         public async Task<string> Login(LoginModel model)
         {
-            var user = Context.Users.SingleOrDefault(x => x.UserName == model.UserName);
+            var user = await UserManager.FindByEmailAsync(model.Email);
 
             if (user == null)
                 return null;

@@ -17,11 +17,15 @@ const httpOptions = {
 export class UserService {
 
   baseUrl = '';//environment.baseUrl;
-  private usersUrl= this.baseUrl + `/api/users`;
+  private usersUrl= this.baseUrl + `/api/group`;
 
   constructor(private http:HttpClient) { }
 
-  getUsers(){
+    // ADD MEMBER PUT: "usersUrl + /{groupId}/member" {userId}
+     // SET ADMIN PUT: "usersUrl + /{groupId}/member" {userId, isAdmin}
+ //GET CATEGORIES GET: "usersUrl + /{groupId}/category", {term} 
+                //GET: "usersUrl + /{groupId}/user/any", {term} <- ezek azok akik nincsenek még groupban
+  getUsers() {  //GET: "usersUrl + /{groupId}/user/group", {term}
     return [
       {
         id: 1,
@@ -45,6 +49,7 @@ export class UserService {
       }
     ]
 
+
     /*
     TODO: swap getUsers(), NEED TEAM IN THE REQUEST
 
@@ -67,4 +72,6 @@ export class UserService {
     }
     */
   }
+
+
 }

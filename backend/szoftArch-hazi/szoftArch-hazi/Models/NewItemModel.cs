@@ -9,7 +9,7 @@ namespace szoftArch_hazi.Models
     public class NewItemModel
     {
         public string Name { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public IFormFile File { get; set; }
     }
 }

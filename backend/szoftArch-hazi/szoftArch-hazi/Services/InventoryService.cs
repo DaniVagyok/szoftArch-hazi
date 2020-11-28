@@ -59,7 +59,7 @@ namespace szoftArch_hazi.Services
                 {
                     Name = set.Name,
                     GroupId = groupId,
-                    CategoryId = set.CategoryId
+                    //CategoryId = set.CategoryId
                 };
                 Context.Sets.Add(newEntity);
                 await Context.SaveChangesAsync();

@@ -10,27 +10,28 @@ import { Category } from "../models/product";
 export class SetsService {
 
   baseUrl = '';//environment.baseUrl;
-  private setsUrl = this.baseUrl + `/api/sets`;
+  private setsUrl = this.baseUrl + `/api/inventory`;
 
   constructor(private http: HttpClient) { }
 
-  addSet(name:string){
-    return this.http.post<any>(this.setsUrl, name)
+  addSet(name: string) { //POST: "setUrl+  /set", {name}
+    return this.http.post<any>(this.setsUrl, name);
   }
 
-  assignSet(id: number, name: string){
-    return this.http.post<any>(this.setsUrl, {id, name})
+  assignSet(id: number, name: string) { // POST: "setUrl + /rent/set", {id, memberId}
+    return this.http.post<any>(this.setsUrl, {id, name});
   }
 
-  takeBackSet(id:number){
-    return this.http.post<any>(this.setsUrl, id)
+  takeBackSet(id: number) { // POST: "setUrl + /revoke/set", setId
+    return this.http.post<any>(this.setsUrl, id);
   }
 
-  addProductToSet(setid:number, selectedProduct:string){
-    return this.http.post<any>(this.setsUrl, {setid, selectedProduct})
+  addProductToSet(setid: number, selectedProduct: string) { // PUT: "setUrl + /{setId}/item", {id} <- itt ez a product id
+    return this.http.post<any>(this.setsUrl, {setid, selectedProduct});
   }
 
-  getSets() {
+  //sajat szettek // GET: "setUrl + /{memberId}/rent/set", term
+  getSets() {      //GET: "setUrl + /{groupId}/set", term
     return [
       {
         id: 1,
