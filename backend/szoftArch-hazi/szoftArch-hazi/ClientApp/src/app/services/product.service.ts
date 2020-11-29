@@ -37,7 +37,7 @@ export class ProductService {
       ...item
     };
     for (const key in itemDto) {
-      if (key) {
+      if (key && itemDto[key]) {
         formData.append(key, itemDto[key]);
       }
     }

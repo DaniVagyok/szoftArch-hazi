@@ -31,7 +31,7 @@ export class ProductsComponent implements OnInit {
 
   uploadForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    categoryId: new FormControl(''),
+    categoryId: new FormControl(null),
     file: new FormControl(null),
   });
 
