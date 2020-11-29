@@ -14,16 +14,6 @@
                         <button type="button" class="w-100" (click)="assignProduct(product.id)">Kiadás</button>
                     </div>
                 </div>
-                <p *ngIf="product.set" class="card-text">Szett: {{ product.set }}</p>
-                <div *ngIf="!product.set">
-                    <select type="text" class="m-1 w-100" [(ngModel)]="assignSetValue" id="selectSet">
-                        <option *ngFor="let set of sets" [value]="set.id">{{set.name}}</option>
-                    </select>
-                    <div class="input-group-append m-1">
-                        <button type="button" class="w-100" (click)="assignProductToSet()">Szetthez
-                            adás</button>
-                    </div>
-                </div>
                 <button *ngIf="product.ownerName" type="button" class="w-100"
                     (click)="takeBackProduct(product.id)">Visszavétel</button>
             </div>

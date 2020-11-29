@@ -96,7 +96,14 @@ export class SetsComponent implements OnInit {
   }
 
   takeBackSet(id: number) {
-    this.setService.takeBackSet(id).subscribe();
+    this.setService.takeBackSet(id).subscribe(() => {
+      this.setService.getSets(this.groupInfo.id, this.searchSetValue).subscribe(
+        res => {
+          this.sets = res;
+          this.filtered = res;
+        }
+      );
+    });
   }
 
   addProductToSet(setid: number) {

@@ -45,7 +45,6 @@ export class ProductsItemComponent implements OnInit {
               this.sets = res;
             }
           );
-          
             this.myId = this.groupInfo.id;
 
           this.userService.getUsersInGroup(this.groupInfo.id)
@@ -58,16 +57,17 @@ export class ProductsItemComponent implements OnInit {
         },
         err => console.log(err)
       );
-
-    
   }
 
   assignProduct(prodId) {
-    this.productService.assignProduct({id: prodId, memberId: parseInt(this.assignNameValue)}).subscribe();
+    this.productService.assignProduct({id: prodId, memberId: parseInt(this.assignNameValue)}).subscribe(
+      () => {
+        this.product.ownerName = this.users.filter(x => x.id === parseInt(this.assignNameValue))[0].userName;
+      });
   }
 
   takeBackProduct(id: number) {
-    this.productService.takeBackProduct(id).subscribe();
+    this.productService.takeBackProduct(id).subscribe(() => this.product.ownerName = "");
   }
 
   assignProductToSet() {
