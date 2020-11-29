@@ -12,6 +12,5 @@ namespace szoftArch_hazi.Data.Entities
         public int GroupId { get; set; }
         public Group Group { get; set; }
         public IEnumerable<Item> Items { get; set; }
-        public IEnumerable<Set> Sets { get; set; }
     }
 }

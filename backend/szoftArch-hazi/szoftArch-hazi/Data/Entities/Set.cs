@@ -13,8 +13,6 @@ namespace szoftArch_hazi.Data.Entities
         public Group Group { get; set; }
         public int? MemberId { get; set; }
         public Member Member { get; set; }
-        public int? CategoryId { get; set; }
-        public Category Category { get; set; }
         public IEnumerable<Item> Items { get; set; }
     }
 }

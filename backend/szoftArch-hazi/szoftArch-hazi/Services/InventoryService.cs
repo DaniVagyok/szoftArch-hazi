@@ -58,8 +58,7 @@ namespace szoftArch_hazi.Services
                 var newEntity = new Set
                 {
                     Name = set.Name,
-                    GroupId = groupId,
-                    //CategoryId = set.CategoryId
+                    GroupId = groupId
                 };
                 Context.Sets.Add(newEntity);
                 await Context.SaveChangesAsync();
@@ -173,7 +172,6 @@ namespace szoftArch_hazi.Services
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    CategoryName = s.Category != null ? s.Category.Name : "",
                     Items = s.Items.Select(i=> new ItemModel
                     {
                         Id = i.Id,
@@ -201,7 +199,6 @@ namespace szoftArch_hazi.Services
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    CategoryName = s.Category != null ? s.Category.Name : "",
                     Items = s.Items.Select(i => new ItemModel
                     {
                         Id = i.Id,

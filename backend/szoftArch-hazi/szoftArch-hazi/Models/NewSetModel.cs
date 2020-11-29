@@ -8,6 +8,5 @@ namespace szoftArch_hazi.Models
     public class NewSetModel
     {
         public string Name { get; set; }
-        public int CategoryId { get; set; }
     }
 }
