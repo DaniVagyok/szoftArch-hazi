@@ -52,29 +52,27 @@ export class SetsComponent implements OnInit {
               this.filtered = res;
             }
           );
+          this.userService.getUsersInGroup(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.users = res;
+              },
+              err => console.log(err)
+            );
+          this.productService.getProducts(this.groupInfo.id, this.searchSetValue)
+            .subscribe(
+              res => {
+                this.products = res;
+                this.productsNotInSet = this.products.filter(p => !p.set).sort((a, b) => a.name.localeCompare(b.name));
+              },
+              err => {
+                if (err instanceof HttpErrorResponse) {
+                  console.log(err);
+                }
+              }
+            );
         },
         err => console.log(err)
-      );
-
-    this.userService.getUsersInGroup(this.groupInfo.id)
-      .subscribe(
-        res => {
-          this.users = res;
-        },
-        err => console.log(err)
-      );
-
-    this.productService.getProducts(this.groupInfo.id, this.searchSetValue)
-      .subscribe(
-        res => {
-          this.products = res;
-          this.productsNotInSet = this.products.filter(p => !p.set).sort((a, b) => a.name.localeCompare(b.name));
-        },
-        err => {
-          if (err instanceof HttpErrorResponse) {
-            console.log(err);
-          }
-        }
       );
   }
 
