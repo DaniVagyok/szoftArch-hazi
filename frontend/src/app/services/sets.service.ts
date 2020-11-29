@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ProductSet } from '../models/productSet';
 
-import { Category } from "../models/product";
 
 @Injectable({
   providedIn: 'root'
@@ -11,26 +12,39 @@ export class SetsService {
 
   baseUrl = environment.baseUrl;
   private setsUrl= this.baseUrl + `/api/sets`;
+  private inventoryUrl= this.baseUrl + `/api/inventory`;
 
   constructor(private http: HttpClient) { }
 
-  addSet(name:string){
-    return this.http.post<any>(this.setsUrl, name)
+  addSet(groupId, newSet){
+    return this.http.post<any>(`${this.inventoryUrl}/set`, groupId, newSet)
   }
 
-  assignSet(id: number, name: string){
-    return this.http.post<any>(this.setsUrl, {id, name})
+  assignSet(newRentSet){
+    return this.http.post<any>(`${this.inventoryUrl}/rent/set`, newRentSet)
   }
 
-  takeBackSet(id:number){
-    return this.http.post<any>(this.setsUrl, id)
+  takeBackSet(id){
+    return this.http.post<any>(`${this.inventoryUrl}/revoke/set`, id)
   }
 
   addProductToSet(setid:number, selectedProduct:string){
-    return this.http.post<any>(this.setsUrl, {setid, selectedProduct})
+    return this.http.post<any>(`${this.inventoryUrl}/${setid}/item`, selectedProduct)
   }
 
-  getSets() {
+  getSets(groupId, str:string){
+    const params = new HttpParams()
+     .set('term', str);
+    return this.http.get<any>(`${this.inventoryUrl}/${groupId}/set`, {params})
+  }
+
+  getMySets(myId:number, str:string){
+    const params = new HttpParams()
+     .set('term', str);
+    return this.http.get<any>(`${this.inventoryUrl}/${myId}/rent/set/`, {params});
+  }
+
+  /*getSets() {
     return [
       {
         id: 1,
@@ -85,5 +99,5 @@ export class SetsService {
         ownerId: 1,
       },
     ]
-  }
+  }*/
 }

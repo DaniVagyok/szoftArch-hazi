@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ProductSet } from '../../models/productSet';
+import { INewProductSet, INewRentModel, ProductSet } from '../../models/productSet';
 import { SetsService } from 'src/app/services/sets.service';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/Product.service';
@@ -20,21 +20,52 @@ export class SetsComponent implements OnInit {
   @Input() assignSetValue: string;
 
   selectedProduct: string;
+  selectedMember: User;
   sets: ProductSet[];
   products: Product[];
   filtered: ProductSet[];
   productsNotInSet: Product[];
   users: User[];
+  newSet: INewProductSet;
+  newRentSet: INewRentModel;
+  searchSetValue :string ='';
 
-  constructor(private setsService:SetsService,
+  groupInfo: {
+    groupId: number,
+    memberId: number,
+    groupName: string,
+    isAdminInGroup: boolean
+  }
+
+  constructor(private setService:SetsService,
               private productService:ProductService,
               private userService: UserService) { }
 
   ngOnInit(): void {
-    this.sets = this.setsService.getSets();
-    this.filtered = this.setsService.getSets();
-    this.users = this.userService.getUsers();
-    this.productService.getProducts()
+    this.userService.getGroup()
+      .subscribe(
+        res => {
+          this.groupInfo = res;
+        },
+        err => console.log(err)
+      );
+
+    this.setService.getSets(this.groupInfo.groupId,this.searchSetValue).subscribe(
+      res => {
+        this.sets = res;
+        this.filtered = res;
+      }
+    );
+
+    this.userService.getUsersInGroup(this.groupInfo.groupId)
+        .subscribe(
+          res => {
+            this.users = res;
+          },
+          err => console.log(err)
+        );
+
+    this.productService.getProducts(this.groupInfo.groupId,this.searchSetValue)
     .subscribe(
       res => {
         this.products = res
@@ -48,23 +79,24 @@ export class SetsComponent implements OnInit {
     );
   }
 
-  assignSet(id: number){
-    if(this.assignSetValue){
-      this.setsService.assignSet(id, this.assignSetValue)
-      this.assignSetValue=''
-    }
+  assignSet(setId){
+    this.newRentSet.memberId=this.selectedMember.id;
+    this.newRentSet.id=setId;
+    this.setService.assignSet(this.newRentSet);
+    this.assignSetValue=''
   }
 
   takeBackSet(id:number){
-    this.setsService.takeBackSet(id)
+    this.setService.takeBackSet(id).subscribe;
   }
 
   addProductToSet(setid:number){
-    this.setsService.addProductToSet(setid, this.selectedProduct)
+    this.setService.addProductToSet(setid, this.selectedProduct).subscribe;
   }
 
   addSet(){
-    this.setsService.addSet(this.addSetName)
+    this.newSet.name = this.addSetName;
+    this.setService.addSet(this.groupInfo.groupId, this.newSet)
     .subscribe(
       res =>{ 
         console.log(res)      
@@ -84,7 +116,11 @@ export class SetsComponent implements OnInit {
   }
 
   selectChangeHandler(event:any){
-    this.selectedProduct = event.target.value
+    this.selectedProduct = event.target.value;
+  }
+
+  selectChangeMemberHandler(event:any){
+    this.selectedMember = event.target.value;
   }
 
 }

@@ -19,33 +19,27 @@ export class AuthService {
               private router: Router) { }
 
   registerUser(user){
-    return this.http.post<any>(this.registerUrl, user)
+    return this.http.post<any>(this.registerUrl, user);
   }
 
   loginUser(user){
-    return this.http.post<any>(this.loginUrl, user)
+    return this.http.post<any>(this.loginUrl, user);
   }
 
   loggedIn(){
-    return !!localStorage.getItem('token')
+    return !!localStorage.getItem('token');
   }
 
   logoutUser(){
-    localStorage.removeItem('token')
-    this.router.navigate(['/login'])
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 
-  getGroup(){
-    
-    return true
-    //return this.http.get<any>(this.groupUrl)
-  }
-
-  createGroup() {
-    
+  createGroup(groupName) {
+    return this.http.post<any>(this.groupUrl, groupName);
   }
 
   getToken(){
-    return localStorage.getItem('token')
+    return localStorage.getItem('token');
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Category, Product } from 'src/app/models/product';
-import { ProductSet } from 'src/app/models/productSet';
+import { Product } from 'src/app/models/product';
+import { INewRentModel, ProductSet } from 'src/app/models/productSet';
 import { User } from 'src/app/models/user';
 import { ProductService } from 'src/app/services/Product.service';
 import { SetsService } from 'src/app/services/sets.service';
@@ -13,34 +13,61 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProductsItemComponent implements OnInit {
   @Input() product: Product;
-  @Input() category: Category;
+  @Input() category: string;
   @Input() myId: number;
-  @Input() assignNameValue: string;
+  @Input() assignNameValue: User;
 
   users: User[];
   sets: ProductSet[];
+  newRentProduct: INewRentModel;
+
+  groupInfo: {
+    groupId: number,
+    memberId: number,
+    groupName: string,
+    isAdminInGroup: boolean
+  }
 
   constructor(private productService: ProductService,
               private userService: UserService,
               private setService: SetsService) { }
 
   ngOnInit(): void {
-    this.users=this.userService.getUsers()
-    this.sets=this.setService.getSets()
+    this.userService.getGroup()
+      .subscribe(
+        res => {
+          this.groupInfo = res;
+        },
+        err => console.log(err)
+      );
+
+    this.setService.getSets(this.groupInfo.groupId).subscribe(
+      res => {
+        this.sets = res;
+      }
+    );
+
+    this.userService.getUsersInGroup(this.groupInfo.groupId)
+        .subscribe(
+          res => {
+            this.users = res;
+          },
+          err => console.log(err)
+        );
   }
 
-  assignProduct(id:number){
-    if(this.assignNameValue){
-      this.productService.assignProduct(id, this.assignNameValue)
-      this.assignNameValue=''
-    }
+  assignProduct(prodId){
+    this.newRentProduct.memberId=this.assignNameValue.id;
+    this.newRentProduct.id=prodId;
+    this.productService.assignProduct(this.newRentProduct).subscribe;
   }
 
   takeBackProduct(id:number){
-    this.productService.takeBackProduct(id)
+    this.productService.takeBackProduct(id).subscribe;
   }
 
-  assignProductToSet(id:number){
+  assignProductToSet(setId){
+    this.productService.assignProductToSet(setId, this.product).subscribe;
 
   }
 

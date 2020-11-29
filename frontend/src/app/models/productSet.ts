@@ -7,3 +7,12 @@ export class ProductSet{
     hasOwner:boolean;
     ownerId: number;
 }
+
+export interface INewProductSet{
+    name: string;
+}
+
+export interface INewRentModel{
+    id: number,
+    memberId: number
+}
