@@ -15,3 +15,8 @@ export interface INewProductModel {
     categoryId: number;
     file: File;
 }
+
+export class Category{
+    id: number;
+    name: string;
+}

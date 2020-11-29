@@ -18,7 +18,7 @@
 
                 <select class="form-control mb-3" formControlName="categoryId" (change)="selectChangeHandler($event)">
                     <option value="" selected disabled>Válassz kategóriát</option>
-                    <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                    <option *ngFor="let category of categories" [value]="category">{{category.name}}</option>
                 </select>
 
                 <div class="input-group mb-3">
@@ -36,17 +36,17 @@
                 <input type="text" [(ngModel)]="addCategoryName" id="categName" class="form-control"
                     placeholder="Új kategória neve" aria-label="Új kategória neve" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-dark" type="button" (click)="addCategory(addCategoryName)">Hozzáadás</button>
+                    <button class="btn btn-dark" type="button" (click)="addCategory()">Hozzáadás</button>
                 </div>
             </div>
         </div>
     </div>
     <ng-container *ngFor="let category of categories">
         <div class="mb-3">
-            <h1>{{category}}</h1>
+            <h1>{{category.name}}</h1>
             <div class="row">
                 <app-products-item *ngFor="let product of filtered; index as i" [product]="product"
-                    [category]="category">
+                    [category]="category.name">
                 </app-products-item>
             </div>
         </div>

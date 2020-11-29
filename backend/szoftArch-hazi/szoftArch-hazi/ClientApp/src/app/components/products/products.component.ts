@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Product, INewProductModel } from '../../models/product';
+import { Product, INewProductModel, Category } from '../../models/product';
 import { ProductService } from 'src/app/services/Product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { $ } from 'protractor';
@@ -21,12 +21,13 @@ export class ProductsComponent implements OnInit {
   @Input() addProductCategory: string;
   @Input() addFile: File;
 
-  selectedCategory: string;
+  selectedCategory: Category;
   products: Product[];
   filtered: Product[];
-  categories: string[];
+  categories: Category[];
   newProd: INewProductModel;
   fileName: string;
+  newCategory: Category={id:1, name:'asd'};
 
   uploadForm: FormGroup = new FormGroup({
     name: new FormControl(''),
@@ -81,6 +82,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
     this.fileName = files.item(0).name;
+    this.uploadForm.controls.categoryId.setValue(this.selectedCategory.id);
     this.uploadForm.controls.file.setValue(files.item(0));
   }
 
@@ -105,8 +107,9 @@ export class ProductsComponent implements OnInit {
     return element.toString.includes(str);
   }
 
-  addCategory(name: string) {
-    this.productService.addCategory(this.addCategoryName, this.groupInfo.id)
+  addCategory() {
+    this.newCategory.name = this.addCategoryName;
+    this.productService.addCategory(this.newCategory, this.groupInfo.id)
       .subscribe(
         () => {
           this.productService.getCategories(this.groupInfo.id)
