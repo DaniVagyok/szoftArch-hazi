@@ -24,7 +24,7 @@
                             adás</button>
                     </div>
                 </div>
-                <button *ngIf="product.hasOwner" type="button" class="w-100"
+                <button *ngIf="product.ownerName" type="button" class="w-100"
                     (click)="takeBackProduct(product.id)">Visszavétel</button>
             </div>
         </div>
