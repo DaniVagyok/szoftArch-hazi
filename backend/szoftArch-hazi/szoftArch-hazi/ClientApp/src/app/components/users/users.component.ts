@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
   addMemberName: string;
   users: User[];
   groupInfo: {
-    groupId: number,
+    id: number,
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
@@ -29,29 +29,35 @@ export class UsersComponent implements OnInit {
       .subscribe(
         res => {
           this.groupInfo = res;
+          this.userService.getUsersInGroup(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.users = res;
+              },
+              err => console.log(err)
+            );
         },
         err => console.log(err)
       );
-      this.userService.getUsersInGroup(this.groupInfo.groupId)
-        .subscribe(
-          res => {
-            this.users = res;
-          },
-          err => console.log(err)
-        );
   }
 
   addMember() {
-    this.userService.addMember(this.addMemberName, this.groupInfo.groupId)
-    .subscribe(res => {
-      this.users = res;
-    });
+    this.userService.addMember(this.addMemberName, this.groupInfo.id)
+      .subscribe(() => {
+        this.userService.getUsersInGroup(this.groupInfo.id)
+          .subscribe(
+            res => {
+              this.users = res;
+            },
+            err => console.log(err)
+          );
+      });
   }
 
   onToggle(user) {
     user.isAdmin = !user.isAdmin;
 
-    this.userService.toggleIsAdmin(user, this.groupInfo.groupId).subscribe(res => {
+    this.userService.toggleIsAdmin(user, this.groupInfo.id).subscribe(res => {
       user = res;
     });
   }

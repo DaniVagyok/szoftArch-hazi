@@ -30,12 +30,12 @@ export class ProductsComponent implements OnInit {
 
   uploadForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    category: new FormControl(''),
+    categoryId: new FormControl(''),
     file: new FormControl(null),
   });
 
   groupInfo: {
-    groupId: number,
+    id: number,
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
@@ -50,27 +50,27 @@ export class ProductsComponent implements OnInit {
       .subscribe(
         res => {
           this.groupInfo = res;
-        },
-        err => console.log(err)
-      );
-    this.productService.getProducts(this.groupInfo.groupId, null)
-      .subscribe(
-        res => {
-          this.filtered = res;
-          this.products = res;
-        },
-        err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
-              this.router.navigate(['/login']);
-            }
-          }
-        }
-      );
-    this.productService.getCategories(this.groupInfo.groupId)
-      .subscribe(
-        res => {
-          this.categories = res;
+          this.productService.getCategories(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.categories = res;
+                this.productService.getProducts(this.groupInfo.id, null)
+                  .subscribe(
+                    res => {
+                      this.filtered = res;
+                      this.products = res;
+                    },
+                    err => {
+                      if (err instanceof HttpErrorResponse) {
+                        if (err.status === 401) {
+                          this.router.navigate(['/login']);
+                        }
+                      }
+                    }
+                  );
+              },
+              err => console.log(err)
+            );
         },
         err => console.log(err)
       );
@@ -88,7 +88,7 @@ export class ProductsComponent implements OnInit {
     /*this.newProd.category = this.addProductCategory;
     this.newProd.name = this.addProductName;
     this.newProd.file = this.uploadForm.value*/
-    this.productService.addProduct(this.groupInfo.groupId, this.uploadForm.value).subscribe(
+    this.productService.addProduct(this.groupInfo.id, this.uploadForm.value).subscribe(
       res => {
         console.log(res);
       },
@@ -106,10 +106,16 @@ export class ProductsComponent implements OnInit {
   }
 
   addCategory(name: string) {
-    this.productService.addCategory(this.addCategoryName, this.groupInfo.groupId)
+    this.productService.addCategory(this.addCategoryName, this.groupInfo.id)
       .subscribe(
-        res => {
-          console.log(res);
+        () => {
+          this.productService.getCategories(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.categories = res;
+              },
+              err => console.log(err)
+            );
         },
         err => console.log(err)
       );

@@ -3,8 +3,7 @@ export class User {
     isAdmin: boolean;
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
+    userName: string;
     token: string;
     group: string;
 }

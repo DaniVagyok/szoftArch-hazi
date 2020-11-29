@@ -31,7 +31,7 @@ export class SetsComponent implements OnInit {
   searchSetValue = '';
 
   groupInfo: {
-    groupId: number,
+    id: number,
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
@@ -50,14 +50,14 @@ export class SetsComponent implements OnInit {
         err => console.log(err)
       );
 
-    this.setService.getSets(this.groupInfo.groupId, this.searchSetValue).subscribe(
+    this.setService.getSets(this.groupInfo.id, this.searchSetValue).subscribe(
       res => {
         this.sets = res;
         this.filtered = res;
       }
     );
 
-    this.userService.getUsersInGroup(this.groupInfo.groupId)
+    this.userService.getUsersInGroup(this.groupInfo.id)
       .subscribe(
         res => {
           this.users = res;
@@ -65,7 +65,7 @@ export class SetsComponent implements OnInit {
         err => console.log(err)
       );
 
-    this.productService.getProducts(this.groupInfo.groupId, this.searchSetValue)
+    this.productService.getProducts(this.groupInfo.id, this.searchSetValue)
       .subscribe(
         res => {
           this.products = res;
@@ -96,7 +96,7 @@ export class SetsComponent implements OnInit {
 
   addSet() {
     this.newSet.name = this.addSetName;
-    this.setService.addSet(this.groupInfo.groupId, this.newSet)
+    this.setService.addSet(this.groupInfo.id, this.newSet)
       .subscribe(
         res => {
           console.log(res);

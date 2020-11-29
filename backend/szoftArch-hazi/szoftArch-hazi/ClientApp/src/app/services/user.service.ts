@@ -17,7 +17,6 @@ const httpOptions = {
 export class UserService {
 
   baseUrl = "";//environment.baseUrl;
-  private usersUrl = this.baseUrl + `/api/users`;
   private groupUrl = this.baseUrl + `/api/group`;
 
   constructor(private http: HttpClient) { }
@@ -26,12 +25,12 @@ export class UserService {
     return this.http.get<any>(this.groupUrl);
   }
 
-  addMember(addMemberName, groupId): Observable<any> {
-    return this.http.put(`${this.usersUrl}/${groupId}/member`, addMemberName);
+  addMember(userId, groupId): Observable<any> {
+    return this.http.put(`${this.groupUrl}/${groupId}/member`, { userId: userId});
   }
 
   toggleIsAdmin(user: User, groupId): Observable<any> {
-    return this.http.put(`${this.usersUrl}/${groupId}/admin`, user);
+    return this.http.put(`${this.groupUrl}/${groupId}/admin`, user);
   }
 
   getUsersInGroup(groupId): Observable<any> {
@@ -45,8 +44,7 @@ export class UserService {
         isAdmin: true,
         email: 'user1@gmail.com',
         password: 'asd',
-        firstName: 'jack',
-        lastName: 'bauer',
+        userName: 'jack',
         token: 'token',
         group: 'csopi1',
       },
@@ -55,8 +53,7 @@ export class UserService {
         isAdmin: false,
         email: 'admin1@gmail.com',
         password: 'asd',
-        firstName: 'beke',
-        lastName: 'rugos',
+        userName: 'beke',
         token: 'token',
         group: 'csopi1',
       }

@@ -13,16 +13,16 @@
         <div class="col-md-6 p-3 text-center">
             <form [formGroup]="uploadForm">
                 <h1>Tárgy felvétele</h1>
-                <input type="text" [(ngModel)]="addProductName" formControlName="name" id="prodName" class="form-control mb-3"
+                <input type="text" formControlName="name" id="prodName" class="form-control mb-3"
                     placeholder="Új tárgy neve" aria-label="Új tárgy neve">
 
-                <select class="form-control mb-3" formControlName="category" (change)="selectChangeHandler($event)">
+                <select class="form-control mb-3" formControlName="categoryId" (change)="selectChangeHandler($event)">
                     <option value="" selected disabled>Válassz kategóriát</option>
                     <option *ngFor="let category of categories" [value]="category">{{category}}</option>
                 </select>
 
                 <div class="input-group mb-3">
-                    <input type="file" [(ngModel)]="addFile" id="fileObj" (change)="uploadFile($event.target.files)" class="form-control"
+                    <input type="file"id="fileObj" (change)="uploadFile($event.target.files)" class="form-control"
                         placeholder="Feltöltendő fájl" aria-label="Feltöltendő fájl" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button" (click)="addProduct()">Feltöltés</button>

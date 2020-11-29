@@ -12,6 +12,6 @@ export class Product {
 
 export interface INewProductModel {
     name: string;
-    category: string;
+    categoryId: number;
     file: File;
 }

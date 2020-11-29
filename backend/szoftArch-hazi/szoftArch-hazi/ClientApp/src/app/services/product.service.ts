@@ -28,7 +28,7 @@ export class ProductService {
   constructor(private http:HttpClient, public dialog:MatDialog) { }
 
   addCategory(addCategoryName, groupId) {
-    return this.http.post<any>(`${this.groupUrl}/${groupId}/category`, addCategoryName)
+    return this.http.post<any>(`${this.groupUrl}/${groupId}/category`, { Name: addCategoryName})
   }
 
   addProduct(groupId, item: INewProductModel): Observable<void>{
@@ -41,6 +41,8 @@ export class ProductService {
         formData.append(key, itemDto[key]);
       }
     }
+    formData.set("categoryId", '2');
+    console.log(formData);
     return this.http.post<any>(`${this.inventoryUrl}/${groupId}/item`, formData);
   }
 

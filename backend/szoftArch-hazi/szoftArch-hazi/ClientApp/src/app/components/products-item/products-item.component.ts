@@ -22,7 +22,7 @@ export class ProductsItemComponent implements OnInit {
   newRentProduct: INewRentModel;
 
   groupInfo: {
-    groupId: number,
+    id: number,
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
@@ -41,13 +41,13 @@ export class ProductsItemComponent implements OnInit {
         err => console.log(err)
       );
 
-    this.setService.getSets(this.groupInfo.groupId, null).subscribe(
+    this.setService.getSets(this.groupInfo.id, null).subscribe(
       res => {
         this.sets = res;
       }
     );
 
-    this.userService.getUsersInGroup(this.groupInfo.groupId)
+    this.userService.getUsersInGroup(this.groupInfo.id)
       .subscribe(
         res => {
           this.users = res;

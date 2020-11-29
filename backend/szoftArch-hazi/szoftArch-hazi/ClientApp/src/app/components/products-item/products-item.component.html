@@ -7,7 +7,7 @@
                 <p *ngIf="product.hasOwner" class="card-text">Nála van: {{ product.ownerId }}</p>
                 <div *ngIf="!product.hasOwner">
                     <select type="text" class="m-1 w-100" [(ngModel)]="assignNameValue.name" id="selectName">
-                        <option *ngFor="let user of users" value="user.firstName">{{user.lastName}} {{user.firstName}}
+                        <option *ngFor="let user of users" value="user.userName">{{user.userName}}
                         </option>
                     </select>
                     <div class="input-group-append m-1">

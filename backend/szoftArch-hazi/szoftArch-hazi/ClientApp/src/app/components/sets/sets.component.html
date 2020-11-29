@@ -29,7 +29,7 @@
                 <div *ngIf="!set.hasOwner" class="input-group mb-3">
                     <select class="form-control" (change)="selectChangeMemberHandler($event)">
                         <option value="" selected disabled>Kiadás neki</option>
-                        <option *ngFor="let user of users">{{user.lastName}} {{user.firstName}}</option>
+                        <option *ngFor="let user of users">{{user.userName}}</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button" (click)="assignSet(set.id)">Kiadás</button>

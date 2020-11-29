@@ -18,7 +18,7 @@
   <tbody>
     <tr *ngFor="let user of users; index as i" (deleteUser)="deleteUser($event)">
       <th scope="row" class="align-middle">{{ i + 1 }}</th>
-      <td class="align-middle">{{ user.firstName }} {{ user.lastName }}</td>
+      <td class="align-middle">{{ user.userName }}</td>
       <td class="align-middle"><input (change)="onToggle(user)" type="checkbox"></td>
     </tr>
   </tbody>
