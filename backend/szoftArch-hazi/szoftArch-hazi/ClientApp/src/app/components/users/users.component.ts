@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 
-import { User } from '../../models/user';
+import { INewMember, User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -12,8 +12,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UsersComponent implements OnInit {
   @Input() user: User;
 
-  addMemberName: string;
+  newMember: INewMember;
   users: User[];
+  usersNotInGroup: User[];
+  selectedMember: User;
   groupInfo: {
     id: number,
     memberId: number,
@@ -36,13 +38,21 @@ export class UsersComponent implements OnInit {
               },
               err => console.log(err)
             );
+          this.userService.getUsersNotInGroup(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.usersNotInGroup = res;
+              }
+            )
+
         },
         err => console.log(err)
       );
   }
 
   addMember() {
-    this.userService.addMember(this.addMemberName, this.groupInfo.id)
+    console.log(this.selectedMember.id);
+    this.userService.addMember({groupId: this.groupInfo.id, userId:this.selectedMember.id}, this.groupInfo.id)
       .subscribe(() => {
         this.userService.getUsersInGroup(this.groupInfo.id)
           .subscribe(
@@ -60,5 +70,9 @@ export class UsersComponent implements OnInit {
     this.userService.toggleIsAdmin(user, this.groupInfo.id).subscribe(res => {
       user = res;
     });
+  }
+
+  selectChangeHandler(event:any){
+    this.selectedMember = event.target.value;
   }
 }

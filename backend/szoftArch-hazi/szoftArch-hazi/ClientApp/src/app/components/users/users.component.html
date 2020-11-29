@@ -1,7 +1,13 @@
 <h1>Tagok</h1>
 <div class="input-group mb-3">
-  <input type="text" class="form-control" [(ngModel)]="addMemberName" placeholder="E-mail cím" aria-label="Recipient's username"
-    aria-describedby="basic-addon2">
+  <!-- <input type="text" class="form-control" [(ngModel)]="newMember" placeholder="E-mail cím" aria-label="Recipient's username"
+    aria-describedby="basic-addon2"> -->
+
+    <select class="form-control" (change)="selectChangeHandler($event)">
+      <option value="" selected disabled>Válassz tagot</option>
+      <option *ngFor="let userNoGr of usersNotInGroup" [value]="userNoGr">{{userNoGr.userName}}</option>
+  </select>
+
   <div class="input-group-append">
     <button class="btn btn-dark" type="button" (click)="addMember()">Felvétel</button>
   </div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from '../models/user';
+import { INewMember, User } from '../models/user';
 import { environment } from 'src/environments/environment';
 
 const httpOptions = {
@@ -25,8 +25,8 @@ export class UserService {
     return this.http.get<any>(this.groupUrl);
   }
 
-  addMember(userId, groupId): Observable<any> {
-    return this.http.put(`${this.groupUrl}/${groupId}/member`, { userId: userId});
+  addMember(user: INewMember, groupId: number): Observable<any> {
+    return this.http.put(`${this.groupUrl}/${groupId}/member`, user);
   }
 
   toggleIsAdmin(user: User, groupId): Observable<any> {
@@ -35,6 +35,10 @@ export class UserService {
 
   getUsersInGroup(groupId): Observable<any> {
     return this.http.get<any>(`${this.groupUrl}/${groupId}/user/group`);
+  }
+
+  getUsersNotInGroup(groupId): Observable<any> {
+    return this.http.get<any>(`${this.groupUrl}/${groupId}/user/nogroup`);
   }
 
   getUsers() {

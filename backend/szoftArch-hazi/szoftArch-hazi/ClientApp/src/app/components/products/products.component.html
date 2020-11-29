@@ -18,7 +18,7 @@
 
                 <select class="form-control mb-3" formControlName="categoryId" (change)="selectChangeHandler($event)">
                     <option value="" selected disabled>Válassz kategóriát</option>
-                    <option *ngFor="let category of categories" [value]="category">{{category.name}}</option>
+                    <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
                 </select>
 
                 <div class="input-group mb-3">

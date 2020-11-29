@@ -41,8 +41,6 @@ export class ProductService {
         formData.append(key, itemDto[key]);
       }
     }
-    formData.set("categoryId", '2');
-    console.log(formData);
     return this.http.post<any>(`${this.inventoryUrl}/${groupId}/item`, formData);
   }
 

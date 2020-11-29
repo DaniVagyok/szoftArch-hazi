@@ -27,7 +27,7 @@ export class ProductsComponent implements OnInit {
   categories: Category[];
   newProd: INewProductModel;
   fileName: string;
-  newCategory: Category={id:1, name:'asd'};
+  newCategory: Category;
 
   uploadForm: FormGroup = new FormGroup({
     name: new FormControl(''),
@@ -108,8 +108,8 @@ export class ProductsComponent implements OnInit {
   }
 
   addCategory() {
-    this.newCategory.name = this.addCategoryName;
-    this.productService.addCategory(this.newCategory, this.groupInfo.id)
+    //this.newCategory.name = this.addCategoryName;
+    this.productService.addCategory({ name :this.addCategoryName }, this.groupInfo.id)
       .subscribe(
         () => {
           this.productService.getCategories(this.groupInfo.id)
