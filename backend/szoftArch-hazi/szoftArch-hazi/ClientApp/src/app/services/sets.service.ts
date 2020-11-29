@@ -25,7 +25,7 @@ export class SetsService {
   }
 
   takeBackSet(id) {
-    return this.http.post<any>(`${this.inventoryUrl}/revoke/set`, id);
+    return this.http.delete<any>(`${this.inventoryUrl}/revoke/set/${id}`);
   }
 
   addProductToSet(setid: number, selectedProduct: number) {

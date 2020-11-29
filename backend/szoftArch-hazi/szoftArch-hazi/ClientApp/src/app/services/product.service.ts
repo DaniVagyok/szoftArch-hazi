@@ -53,7 +53,7 @@ export class ProductService {
   }
 
   takeBackProduct(id) {
-    return this.http.post<any>(`${this.inventoryUrl}/revoke/item`, id)
+    return this.http.delete<any>(`${this.inventoryUrl}/revoke/item${id}`)
   }
 
   getProducts(groupId: number, str: string) {
