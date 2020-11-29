@@ -12,19 +12,30 @@ import { SetsService } from 'src/app/services/sets.service';
 })
 export class MyStuffComponent implements OnInit {
 
-  myId:number = 1;
-  products: Product[];
-  sets: ProductSet[];
+  myId:number;
+  myProducts: Product[];
+  mySets: ProductSet[];
+  searchValue: string ='';
+
+  groupInfo : {
+    groupId: number,
+    memberId: number,
+    groupName: string,
+    isAdminInGroup: boolean
+  }
 
   constructor(private setsService:SetsService,
               private productService:ProductService) { }
 
   ngOnInit(): void {
-    this.sets = this.setsService.getSets();
-    this.productService.getProducts()
-    .subscribe(
-      res => {
-        this.products = res
+    this.setsService.getMySets(this.groupInfo.memberId, this.searchValue).subscribe(
+      res =>{
+          this.mySets=res
+      }
+    );
+    this.productService.getMyProducts(this.groupInfo.memberId, this.searchValue).subscribe(
+      res =>{
+          this.myProducts=res
       }
     );
   }

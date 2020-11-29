@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,13 +11,20 @@ export class CreateGroupComponent implements OnInit {
 
   groupRegisterData : any = {}
 
-  constructor(private auth:AuthService) { }
+  constructor(private auth:AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
 
   createGroup(){
-    this.auth.createGroup();
+    this.auth.createGroup(this.groupRegisterData)
+    .subscribe(
+      res =>{      
+        this.router.navigate(['/products'])
+      },
+      err => console.log(err)
+      )
   }
 
 }

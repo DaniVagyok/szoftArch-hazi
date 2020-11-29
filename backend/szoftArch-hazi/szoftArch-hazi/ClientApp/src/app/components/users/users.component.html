@@ -1,9 +1,9 @@
 <h1>Tagok</h1>
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="E-mail cím" aria-label="Recipient's username"
+  <input type="text" class="form-control" [(ngModel)]="addMemberName" placeholder="E-mail cím" aria-label="Recipient's username"
     aria-describedby="basic-addon2">
   <div class="input-group-append">
-    <button class="btn btn-dark" type="button">Felvétel</button>
+    <button class="btn btn-dark" type="button" (click)="addMember()">Felvétel</button>
   </div>
 </div>
 <table class="table table-striped table-hover">
@@ -20,7 +20,6 @@
       <th scope="row" class="align-middle">{{ i + 1 }}</th>
       <td class="align-middle">{{ user.firstName }} {{ user.lastName }}</td>
       <td class="align-middle"><input (change)="onToggle(user)" type="checkbox"></td>
-      <td class="align-middle"><button class="btn" (click)="onDelete(user)"><i class="fa fa-trash"></i></button></td>
     </tr>
   </tbody>
 </table>

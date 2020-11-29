@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 
 import { User } from '../models/user';
-import { Category, Product } from '../models/product';
+import { Product } from '../models/product';
 import { environment } from 'src/environments/environment';
 
 const httpOptions = {
@@ -18,58 +18,49 @@ const httpOptions = {
 })
 export class ProductService {
 
- baseUrl ='';// environment.baseUrl;
- private productsUrl= this.baseUrl + `/api/inventory`;
+ baseUrl = environment.baseUrl;
+ private productsUrl= this.baseUrl + `/api/products`;
+ private groupUrl= this.baseUrl + `/api/group`;
+ private inventoryUrl= this.baseUrl + `/api/inventory`;
+
+
 
   constructor(private http:HttpClient, public dialog:MatDialog) { }
 
-  addCategory(addCategoryName: string) { // POST: "{groupId}/category", {name}
-    return this.http.post<any>(this.productsUrl, addCategoryName)
+  addCategory(addCategoryName, groupId) {
+    return this.http.post<any>(`${this.groupUrl}/${groupId}/category`, addCategoryName)
   }
 
-  assignProduct(id:number, name: string){ // POST: "productUrl + /rent/set", {id, memberId}
-    console.log(id, name)
+  addProduct(groupId, newProd){
+    return this.http.post<any>(`${this.inventoryUrl}/item`, groupId, newProd)
   }
 
-  takeBackProduct(id:number){ // POST: "productUrl + /revoke/set", itemId
-    console.log(id)
+  getCategories(groupId){
+    return this.http.get<any>(`${this.groupUrl}/${groupId}/category`)
   }
-  
-//sajat productok // GET: "productUrl + /{memberId}/rent/item", term
-                  // GET: "productUrl + /{groupId}/item", term
-  getProducts(){
-    return this.http.get<any>(this.productsUrl)
 
-    /*
-
-    getUsers(): Observables<User[]> {
-      return this.http.get<User[]>(this.url);
-    }
-
-    TODO: uncomment
-
-    toggleIsAdmin(user: User):Observable<Any>{
-      const userIdUrl = `${this.url}/${user.id}`;
-      return this.http.put(userIdUrl, user, httpOptions);
-    }
-
-    TODO: uncomment
-
-    deleteUser(user: User):Observable<User>{
-      const userIdUrl = `${this.url}/${user.id}`;
-      return this.http.delete<User>(userIdUrl, httpOptions);
-    }
-    */
+  assignProduct(item){
+    return this.http.post<any>(`${this.inventoryUrl}/rent/item`, item)
   }
-//POST: "productUrl+  /item", {} <- ennek a product modellnek a tartalmát még csiszolom majd
-/*form data:
-string name
-number? categoryId
- File file*/
-  createProduct(newProduct: Product) {
-    
-    
-    //return this.post<PostResult>(`${environment.apiUrl}/api/course`, newCourse);
+
+  takeBackProduct(id){
+    return this.http.post<any>(`${this.inventoryUrl}/revoke/item`, id)
+  }
+
+  getProducts(groupId, str:string){
+    const params = new HttpParams()
+     .set('term', str)
+    return this.http.get<any>(`${this.inventoryUrl}/${groupId}/item`, {params})
+  }
+
+  assignProductToSet(setId, item){
+    return this.http.post<any>(`${this.inventoryUrl}/${setId}/item`, item)
+  }
+
+  getMyProducts(myId:number, str:string){
+    const params = new HttpParams()
+     .set('term', str)
+    return this.http.get<any>(`${this.inventoryUrl}/${myId}/rent/item/`, {params})
   }
   
 }

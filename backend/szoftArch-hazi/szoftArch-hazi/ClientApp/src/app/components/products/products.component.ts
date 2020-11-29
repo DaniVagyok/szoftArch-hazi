@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Category, Product } from '../../models/product';
+import { Product, INewProductModel } from '../../models/product';
 import { ProductService } from 'src/app/services/Product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { $ } from 'protractor';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-Products',
@@ -19,63 +20,97 @@ export class ProductsComponent implements OnInit {
   @Input() addProductCategory: string;
   @Input() addFile: File;
 
-
   selectedCategory: string;
   products: Product[];
   filtered: Product[];
-  categories: Category[];
+  categories: string[];
+  newProd: INewProductModel;
 
-  constructor(private productService:ProductService,
-              private router: Router) { }
+  groupInfo: {
+    groupId: number,
+    memberId: number,
+    groupName: string,
+    isAdminInGroup: boolean
+  }
+
+  constructor(private productService: ProductService,
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.categories = Object.values(Category);
-    this.productService.getProducts()
-    .subscribe(
-      res => {
-        this.filtered = res;
-        this.products = res
-      },
-      err => {
-        if (err instanceof HttpErrorResponse){
-          if(err.status === 401){
-            this.router.navigate(['/login'])
+    this.userService.getGroup()
+      .subscribe(
+        res => {
+          this.groupInfo = res;
+        },
+        err => console.log(err)
+      );
+      this.productService.getProducts(this.groupInfo.groupId)
+        .subscribe(
+          res => {
+            this.filtered = res;
+            this.products = res
+          },
+          err => {
+            if (err instanceof HttpErrorResponse) {
+              if (err.status === 401) {
+                this.router.navigate(['/login'])
+              }
+            }
           }
-        }
-      }
-    );
+        );
+    this.productService.getCategories(this.groupInfo.groupId)
+      .subscribe(
+        res => {
+          this.categories = res;
+        },
+        err => console.log(err)
+      );
 
   }
 
-  getOwnerById(id: string){
-    return "asd";
-  }
-
-  containsStr(element, index, array, str){
-    return element.toString.includes(str)
-  }
-
-  addCategory(name: string){
-    this.productService.addCategory(this.addCategoryName)
-    .subscribe(
+  addProduct(){
+    this.newProd.category = this.addProductCategory;
+    this.newProd.name = this.addProductName;
+    this.productService.addProduct(this.groupInfo.groupId, this.newProd).subscribe(
       res =>{ 
         console.log(res)      
       },
       err => console.log(err)
       )
-      this.addCategoryName="";
+      this.addProductName=""
+      ;
   }
 
-  applyFilter(str:string){
+  getOwnerById(id: string) {
+    return "asd";
+  }
+
+  containsStr(element, index, array, str) {
+    return element.toString.includes(str)
+  }
+
+  addCategory(name: string) {
+    this.productService.addCategory(this.addCategoryName, this.groupInfo.groupId)
+      .subscribe(
+        res => {
+          console.log(res)
+        },
+        err => console.log(err)
+      )
+    this.addCategoryName = "";
+  }
+
+  applyFilter(str: string) {
     this.filtered = this.products.filter(p => p.name.toLowerCase().includes(str.toLowerCase()));
   }
 
-  resetFilter(){
+  resetFilter() {
     this.filtered = this.products;
     this.searchValue = "";
   }
 
-  selectChangeHandler(event:any){
+  selectChangeHandler(event: any) {
     this.selectedCategory = event.target.value
   }
 

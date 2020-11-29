@@ -1,17 +1,16 @@
+import { Interface } from 'readline';
+
 export class Product {
     id: number;
     hasOwner: boolean;
     ownerId: number;
     name: string;
-    category: Category;
+    category: string;
     set: string;
     imgsrc: string;
 }
 
-export enum Category{
-    Boots = 'Csizma',
-    Pants = 'Nadrág',
-    Shirt = 'Ing',
-    Vest = 'Mellény',
-    Hat = 'Kalap'
+export interface INewProductModel{
+    name: string;
+    category: string;
 }

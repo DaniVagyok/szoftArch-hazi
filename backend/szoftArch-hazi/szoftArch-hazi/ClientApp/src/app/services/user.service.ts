@@ -16,16 +16,29 @@ const httpOptions = {
 })
 export class UserService {
 
-  baseUrl = '';//environment.baseUrl;
-  private usersUrl= this.baseUrl + `/api/group`;
+  baseUrl = environment.baseUrl;
+  private usersUrl= this.baseUrl + `/api/users`;
+  private groupUrl=this.baseUrl + `/api/group`;
 
   constructor(private http:HttpClient) { }
 
-    // ADD MEMBER PUT: "usersUrl + /{groupId}/member" {userId}
-     // SET ADMIN PUT: "usersUrl + /{groupId}/member" {userId, isAdmin}
- //GET CATEGORIES GET: "usersUrl + /{groupId}/category", {term} 
-                //GET: "usersUrl + /{groupId}/user/any", {term} <- ezek azok akik nincsenek még groupban
-  getUsers() {  //GET: "usersUrl + /{groupId}/user/group", {term}
+  getGroup(){
+    return this.http.get<any>(this.groupUrl);
+  }
+
+  addMember(addMemberName, groupId):Observable<any>{
+    return this.http.put(`${this.usersUrl}/${groupId}/member`, addMemberName);
+  }
+
+  toggleIsAdmin(user: User, groupId):Observable<any>{
+    return this.http.put(`${this.usersUrl}/${groupId}/admin`, user);
+  }
+
+  getUsersInGroup(groupId): Observable<any> {
+    return this.http.get<any>(`${this.groupUrl}/${groupId}/user/group`);
+  }
+
+  getUsers(){
     return [
       {
         id: 1,
@@ -49,29 +62,12 @@ export class UserService {
       }
     ]
 
-
     /*
     TODO: swap getUsers(), NEED TEAM IN THE REQUEST
 
-    getUsers(): Observables<User[]> {
-      return this.http.get<User[]>(this.url);
-    }
+    
 
-    TODO: uncomment
-
-    toggleIsAdmin(user: User):Observable<Any>{
-      const userIdUrl = `${this.url}/${user.id}`;
-      return this.http.put(userIdUrl, user, httpOptions);
-    }
-
-    TODO: uncomment
-
-    deleteUser(user: User):Observable<User>{
-      const userIdUrl = `${this.url}/${user.id}`;
-      return this.http.delete<User>(userIdUrl, httpOptions);
-    }
+    
     */
   }
-
-
 }
