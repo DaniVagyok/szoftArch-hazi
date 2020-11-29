@@ -37,8 +37,7 @@
             <img class="card-img-top" [attr.src]="thumbnailUri | secure | async" alt="Card image cap">
             <div class="card-body">
                 <h1 class="card-title">{{ product.name }}</h1>
-                <p class="card-text">Szett: {{ product.set }}</p>
-                <p class="card-text">Kategória: {{ product.category }}</p>
+                <p class="card-text">Kategória: {{ product.categoryName }}</p>
             </div>
         </div>
     </div>
@@ -51,7 +50,7 @@
             <div class="card-body">
                 <h1 class="card-title">{{ product.name }}</h1>
                 <p class="card-text">Nála van: {{ product.ownerName }}</p>
-                <p class="card-text">Kategória: {{ product.category }}</p>
+                <p class="card-text">Kategória: {{ product.categoryName }}</p>
             </div>
         </div>
     </div>
