@@ -3,7 +3,7 @@
         <div class="card">
             <img class="card-img-top" [attr.src]="thumbnailUri | secure | async" alt="Card image cap">
             <div class="card-body">
-                <h1 class="card-title mb-1">{{ product.name }}</h1>
+                <p class="card-title mb-1">{{ product.name }}</p>
                 <p *ngIf="product.ownerName" class="card-text">Nála van: {{ product.ownerName }}</p>
                 <div *ngIf="!product.ownerName">
                     <select type="text" class="m-1 w-100" [(ngModel)]="assignNameValue" id="selectName">
@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div *ngIf="myId">
+<div *ngIf="myId&&!category">
     <div class="wrapper mx-3">
         <div class="card">
             <img class="card-img-top" [attr.src]="thumbnailUri | secure | async" alt="Card image cap">

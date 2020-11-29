@@ -6,11 +6,11 @@
     </div>
 
     <h1>Szettjeim</h1>
-    <ng-container *ngFor="let set of sets">
-        <div *ngIf="myId===set.ownerId" class="mb-3 p-3 border">
+    <ng-container *ngFor="let set of mySets">
+        <div class="mb-3 p-3 border">
             <h1>{{set.name}}</h1>
             <div class="row">
-                <app-products-item *ngFor="let product of mySets.items; index as i" [product]="product" [myId]="myId">
+                <app-products-item *ngFor="let set of mySets.items; index as i" [product]="product">
                 </app-products-item>
             </div>
         </div>
