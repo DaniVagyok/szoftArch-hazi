@@ -25,6 +25,7 @@ import { AuthGuard } from './services/auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CreateGroupComponent } from './components/create-group/create-group.component';
 import { MyStuffComponent } from './components/my-stuff/my-stuff.component';
+import { SecurePipe } from './pipes/secure.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MyStuffComponent } from './components/my-stuff/my-stuff.component';
     RegisterComponent,
     LoginComponent,
     CreateGroupComponent,
-    MyStuffComponent
+    MyStuffComponent,
+    SecurePipe
   ],
   imports: [
     BrowserModule,
