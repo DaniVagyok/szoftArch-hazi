@@ -14,12 +14,12 @@ export class UsersComponent implements OnInit {
 
   addMemberName: string;
   users: User[];
-  groupInfo : {
+  groupInfo: {
     groupId: number,
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
-  }
+  };
 
   constructor(private userService: UserService) { }
 
@@ -43,8 +43,8 @@ export class UsersComponent implements OnInit {
 
   addMember() {
     this.userService.addMember(this.addMemberName, this.groupInfo.groupId)
-    .subscribe(res =>{
-      this.users=res;
+    .subscribe(res => {
+      this.users = res;
     });
   }
 
@@ -53,6 +53,6 @@ export class UsersComponent implements OnInit {
 
     this.userService.toggleIsAdmin(user, this.groupInfo.groupId).subscribe(res => {
       user = res;
-    })
+    });
   }
 }

@@ -31,7 +31,7 @@ export class ProductsComponent implements OnInit {
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
-  }
+  };
 
   constructor(private productService: ProductService,
     private userService: UserService,
@@ -45,20 +45,20 @@ export class ProductsComponent implements OnInit {
         },
         err => console.log(err)
       );
-      this.productService.getProducts(this.groupInfo.groupId)
-        .subscribe(
-          res => {
-            this.filtered = res;
-            this.products = res
-          },
-          err => {
-            if (err instanceof HttpErrorResponse) {
-              if (err.status === 401) {
-                this.router.navigate(['/login'])
-              }
+    this.productService.getProducts(this.groupInfo.groupId, null)
+      .subscribe(
+        res => {
+          this.filtered = res;
+          this.products = res;
+        },
+        err => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 401) {
+              this.router.navigate(['/login']);
             }
           }
-        );
+        }
+      );
     this.productService.getCategories(this.groupInfo.groupId)
       .subscribe(
         res => {
@@ -66,20 +66,18 @@ export class ProductsComponent implements OnInit {
         },
         err => console.log(err)
       );
-
   }
 
-  addProduct(){
+  addProduct() {
     this.newProd.category = this.addProductCategory;
     this.newProd.name = this.addProductName;
     this.productService.addProduct(this.groupInfo.groupId, this.newProd).subscribe(
-      res =>{ 
-        console.log(res)      
+      res => {
+        console.log(res);
       },
       err => console.log(err)
-      )
-      this.addProductName=""
-      ;
+    );
+    this.addProductName = "";
   }
 
   getOwnerById(id: string) {
@@ -87,17 +85,17 @@ export class ProductsComponent implements OnInit {
   }
 
   containsStr(element, index, array, str) {
-    return element.toString.includes(str)
+    return element.toString.includes(str);
   }
 
   addCategory(name: string) {
     this.productService.addCategory(this.addCategoryName, this.groupInfo.groupId)
       .subscribe(
         res => {
-          console.log(res)
+          console.log(res);
         },
         err => console.log(err)
-      )
+      );
     this.addCategoryName = "";
   }
 
@@ -111,7 +109,7 @@ export class ProductsComponent implements OnInit {
   }
 
   selectChangeHandler(event: any) {
-    this.selectedCategory = event.target.value
+    this.selectedCategory = event.target.value;
   }
 
 }

@@ -28,18 +28,18 @@ export class SetsComponent implements OnInit {
   users: User[];
   newSet: INewProductSet;
   newRentSet: INewRentModel;
-  searchSetValue :string ='';
+  searchSetValue = '';
 
   groupInfo: {
     groupId: number,
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
-  }
+  };
 
-  constructor(private setService:SetsService,
-              private productService:ProductService,
-              private userService: UserService) { }
+  constructor(private setService: SetsService,
+    private productService: ProductService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getGroup()
@@ -50,7 +50,7 @@ export class SetsComponent implements OnInit {
         err => console.log(err)
       );
 
-    this.setService.getSets(this.groupInfo.groupId,this.searchSetValue).subscribe(
+    this.setService.getSets(this.groupInfo.groupId, this.searchSetValue).subscribe(
       res => {
         this.sets = res;
         this.filtered = res;
@@ -58,68 +58,68 @@ export class SetsComponent implements OnInit {
     );
 
     this.userService.getUsersInGroup(this.groupInfo.groupId)
-        .subscribe(
-          res => {
-            this.users = res;
-          },
-          err => console.log(err)
-        );
+      .subscribe(
+        res => {
+          this.users = res;
+        },
+        err => console.log(err)
+      );
 
-    this.productService.getProducts(this.groupInfo.groupId,this.searchSetValue)
-    .subscribe(
-      res => {
-        this.products = res
-        this.productsNotInSet = this.products.filter(p => !p.set).sort((a, b) => a.name.localeCompare(b.name))
-      },
-      err => {
-        if (err instanceof HttpErrorResponse){
-          console.log(err)
+    this.productService.getProducts(this.groupInfo.groupId, this.searchSetValue)
+      .subscribe(
+        res => {
+          this.products = res;
+          this.productsNotInSet = this.products.filter(p => !p.set).sort((a, b) => a.name.localeCompare(b.name));
+        },
+        err => {
+          if (err instanceof HttpErrorResponse) {
+            console.log(err);
+          }
         }
-      }
-    );
+      );
   }
 
-  assignSet(setId){
-    this.newRentSet.memberId=this.selectedMember.id;
-    this.newRentSet.id=setId;
+  assignSet(setId) {
+    this.newRentSet.memberId = this.selectedMember.id;
+    this.newRentSet.id = setId;
     this.setService.assignSet(this.newRentSet);
-    this.assignSetValue=''
+    this.assignSetValue = '';
   }
 
-  takeBackSet(id:number){
-    this.setService.takeBackSet(id).subscribe;
+  takeBackSet(id: number) {
+    this.setService.takeBackSet(id).subscribe();
   }
 
-  addProductToSet(setid:number){
-    this.setService.addProductToSet(setid, this.selectedProduct).subscribe;
+  addProductToSet(setid: number) {
+    this.setService.addProductToSet(setid, this.selectedProduct).subscribe();
   }
 
-  addSet(){
+  addSet() {
     this.newSet.name = this.addSetName;
     this.setService.addSet(this.groupInfo.groupId, this.newSet)
-    .subscribe(
-      res =>{ 
-        console.log(res)      
-      },
-      err => console.log(err)
-      )
-      this.addSetName="";
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        err => console.log(err)
+      );
+    this.addSetName = '';
   }
 
-  applyFilter(str:string){
+  applyFilter(str: string) {
     this.filtered = this.sets.filter(p => p.name.toLowerCase().includes(str.toLowerCase()));
   }
 
-  resetFilter(){
+  resetFilter() {
     this.filtered = this.sets;
-    this.searchValue = "";
+    this.searchValue = '';
   }
 
-  selectChangeHandler(event:any){
+  selectChangeHandler(event: any) {
     this.selectedProduct = event.target.value;
   }
 
-  selectChangeMemberHandler(event:any){
+  selectChangeMemberHandler(event: any) {
     this.selectedMember = event.target.value;
   }
 

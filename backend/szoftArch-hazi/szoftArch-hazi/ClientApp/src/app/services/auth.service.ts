@@ -8,29 +8,29 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  baseUrl = environment.baseUrl;
-  
-  private registerUrl=this.baseUrl + `/api/register`;
-  private loginUrl=this.baseUrl + `/api/login`;
-  private groupUrl=this.baseUrl + `/api/group`;
+  baseUrl = ""; // environment.baseUrl;
+
+  private registerUrl = this.baseUrl + `/api/auth/register`;
+  private loginUrl = this.baseUrl + `/api/auth/login`;
+  private groupUrl = this.baseUrl + `/api/group`;
 
 
   constructor(private http: HttpClient,
-              private router: Router) { }
+    private router: Router) { }
 
-  registerUser(user){
+  registerUser(user) {
     return this.http.post<any>(this.registerUrl, user);
   }
 
-  loginUser(user){
+  loginUser(user) {
     return this.http.post<any>(this.loginUrl, user);
   }
 
-  loggedIn(){
+  loggedIn() {
     return !!localStorage.getItem('token');
   }
 
-  logoutUser(){
+  logoutUser() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
@@ -39,7 +39,7 @@ export class AuthService {
     return this.http.post<any>(this.groupUrl, groupName);
   }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem('token');
   }
 }

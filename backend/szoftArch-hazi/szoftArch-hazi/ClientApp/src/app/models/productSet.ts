@@ -1,18 +1,18 @@
-import { Product } from "./product";
+import { Product } from './product';
 
-export class ProductSet{
+export class ProductSet {
     id: number;
     name: string;
     products: Product[];
-    hasOwner:boolean;
+    hasOwner: boolean;
     ownerId: number;
 }
 
-export interface INewProductSet{
+export interface INewProductSet {
     name: string;
 }
 
-export interface INewRentModel{
-    id: number,
-    memberId: number
+export interface INewRentModel {
+    id: number;
+    memberId: number;
 }

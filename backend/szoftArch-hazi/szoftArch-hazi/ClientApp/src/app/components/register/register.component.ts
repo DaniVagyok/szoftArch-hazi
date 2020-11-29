@@ -9,24 +9,24 @@ import { AuthService } from "../../services/auth.service";
 })
 export class RegisterComponent implements OnInit {
 
-  registerUserData : any = {}
+  registerUserData: any = {};
 
   constructor(private auth: AuthService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  registerUser(){
+  registerUser() {
     this.auth.registerUser(this.registerUserData)
-    .subscribe( 
-      res => {
-        console.log(res)
-        localStorage.setItem('token', res.token)
-        this.router.navigate(['/products'])
-      },
-      err => console.log(err)
-    )
+      .subscribe(
+        res => {
+          console.log(res);
+          //localStorage.setItem('token', res.token);
+          this.router.navigate(['/login']);
+        },
+        err => console.log(err)
+      );
   }
 
 }

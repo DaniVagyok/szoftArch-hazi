@@ -18,7 +18,7 @@ const httpOptions = {
 })
 export class ProductService {
 
- baseUrl = environment.baseUrl;
+ baseUrl = "";//environment.baseUrl;
  private productsUrl= this.baseUrl + `/api/products`;
  private groupUrl= this.baseUrl + `/api/group`;
  private inventoryUrl= this.baseUrl + `/api/inventory`;
@@ -47,7 +47,7 @@ export class ProductService {
     return this.http.post<any>(`${this.inventoryUrl}/revoke/item`, id)
   }
 
-  getProducts(groupId, str:string){
+  getProducts(groupId: number, str:string){
     const params = new HttpParams()
      .set('term', str)
     return this.http.get<any>(`${this.inventoryUrl}/${groupId}/item`, {params})

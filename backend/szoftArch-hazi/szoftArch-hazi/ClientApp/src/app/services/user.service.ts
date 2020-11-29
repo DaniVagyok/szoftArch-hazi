@@ -9,28 +9,28 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application.json'
   })
-}
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  baseUrl = environment.baseUrl;
-  private usersUrl= this.baseUrl + `/api/users`;
-  private groupUrl=this.baseUrl + `/api/group`;
+  baseUrl = "";//environment.baseUrl;
+  private usersUrl = this.baseUrl + `/api/users`;
+  private groupUrl = this.baseUrl + `/api/group`;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getGroup(){
+  getGroup() {
     return this.http.get<any>(this.groupUrl);
   }
 
-  addMember(addMemberName, groupId):Observable<any>{
+  addMember(addMemberName, groupId): Observable<any> {
     return this.http.put(`${this.usersUrl}/${groupId}/member`, addMemberName);
   }
 
-  toggleIsAdmin(user: User, groupId):Observable<any>{
+  toggleIsAdmin(user: User, groupId): Observable<any> {
     return this.http.put(`${this.usersUrl}/${groupId}/admin`, user);
   }
 
@@ -38,7 +38,7 @@ export class UserService {
     return this.http.get<any>(`${this.groupUrl}/${groupId}/user/group`);
   }
 
-  getUsers(){
+  getUsers() {
     return [
       {
         id: 1,
@@ -60,14 +60,10 @@ export class UserService {
         token: 'token',
         group: 'csopi1',
       }
-    ]
+    ];
 
     /*
     TODO: swap getUsers(), NEED TEAM IN THE REQUEST
-
-    
-
-    
     */
   }
 }

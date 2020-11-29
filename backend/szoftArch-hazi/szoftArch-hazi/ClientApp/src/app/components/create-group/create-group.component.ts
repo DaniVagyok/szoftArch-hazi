@@ -9,22 +9,22 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class CreateGroupComponent implements OnInit {
 
-  groupRegisterData : any = {}
+  groupRegisterData: any = {};
 
-  constructor(private auth:AuthService,
-              private router: Router) { }
+  constructor(private auth: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  createGroup(){
+  createGroup() {
     this.auth.createGroup(this.groupRegisterData)
-    .subscribe(
-      res =>{      
-        this.router.navigate(['/products'])
-      },
-      err => console.log(err)
-      )
+      .subscribe(
+        res => {
+          this.router.navigate(['/products']);
+        },
+        err => console.log(err)
+      );
   }
 
 }

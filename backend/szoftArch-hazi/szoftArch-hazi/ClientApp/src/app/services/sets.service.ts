@@ -10,38 +10,38 @@ import { ProductSet } from '../models/productSet';
 })
 export class SetsService {
 
-  baseUrl = environment.baseUrl;
-  private setsUrl= this.baseUrl + `/api/sets`;
-  private inventoryUrl= this.baseUrl + `/api/inventory`;
+  baseUrl = "";// environment.baseUrl;
+  private setsUrl = this.baseUrl + `/api/sets`;
+  private inventoryUrl = this.baseUrl + `/api/inventory`;
 
   constructor(private http: HttpClient) { }
 
-  addSet(groupId, newSet){
-    return this.http.post<any>(`${this.inventoryUrl}/set`, groupId, newSet)
+  addSet(groupId, newSet) {
+    return this.http.post<any>(`${this.inventoryUrl}/set`, groupId, newSet);
   }
 
-  assignSet(newRentSet){
-    return this.http.post<any>(`${this.inventoryUrl}/rent/set`, newRentSet)
+  assignSet(newRentSet) {
+    return this.http.post<any>(`${this.inventoryUrl}/rent/set`, newRentSet);
   }
 
-  takeBackSet(id){
-    return this.http.post<any>(`${this.inventoryUrl}/revoke/set`, id)
+  takeBackSet(id) {
+    return this.http.post<any>(`${this.inventoryUrl}/revoke/set`, id);
   }
 
-  addProductToSet(setid:number, selectedProduct:string){
-    return this.http.post<any>(`${this.inventoryUrl}/${setid}/item`, selectedProduct)
+  addProductToSet(setid: number, selectedProduct: string) {
+    return this.http.post<any>(`${this.inventoryUrl}/${setid}/item`, selectedProduct);
   }
 
-  getSets(groupId, str:string){
+  getSets(groupId: number, str: string) {
     const params = new HttpParams()
-     .set('term', str);
-    return this.http.get<any>(`${this.inventoryUrl}/${groupId}/set`, {params})
+      .set('term', str);
+    return this.http.get<any>(`${this.inventoryUrl}/${groupId}/set`, { params });
   }
 
-  getMySets(myId:number, str:string){
+  getMySets(myId: number, str: string) {
     const params = new HttpParams()
-     .set('term', str);
-    return this.http.get<any>(`${this.inventoryUrl}/${myId}/rent/set/`, {params});
+      .set('term', str);
+    return this.http.get<any>(`${this.inventoryUrl}/${myId}/rent/set/`, { params });
   }
 
   /*getSets() {

@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'sets', component: SetsComponent, canActivate: [AuthGuard]  },
   { path: 'my-stuff', component: MyStuffComponent, canActivate: [AuthGuard]  },
-  { path: '', component: HomeComponent }
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

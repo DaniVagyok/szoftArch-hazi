@@ -10,7 +10,7 @@ export class Product {
     imgsrc: string;
 }
 
-export interface INewProductModel{
+export interface INewProductModel {
     name: string;
     category: string;
 }

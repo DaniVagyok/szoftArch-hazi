@@ -29,10 +29,12 @@
 </nav>
 
 <div class="container">
-  <div *ngIf="!groupInfo.groupName&&authService.loggedIn()">
+  <div *ngIf="authService.loggedIn() && !groupInfo; else router">
     <app-create-group></app-create-group>
   </div>
-  <div *ngIf="groupInfo.groupName || !authService.loggedIn()">
+  <ng-template #router>
+  <div>
     <router-outlet></router-outlet>
   </div>
+  </ng-template>
 </div>

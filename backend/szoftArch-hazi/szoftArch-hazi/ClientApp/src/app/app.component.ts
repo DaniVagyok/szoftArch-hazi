@@ -7,24 +7,25 @@ import { UserService } from './services/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'frontend-teszt';
-  groupInfo : {
+  groupInfo: {
     groupId: number,
     groupName: string,
+    memberId: number,
     isAdminInGroup: boolean
-  }
+  };
 
-  constructor(public authService:AuthService,
-              public userService:UserService){
+  constructor(public authService: AuthService,
+    public userService: UserService) {
   }
   ngOnInit(): void {
     this.userService.getGroup()
-    .subscribe(
-      res =>{      
-        this.groupInfo=res;
-      },
-      err => console.log(err)
+      .subscribe(
+        res => {
+          this.groupInfo = res;
+        },
+        err => console.log(err)
       );
   }
 }

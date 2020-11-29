@@ -26,11 +26,11 @@ export class ProductsItemComponent implements OnInit {
     memberId: number,
     groupName: string,
     isAdminInGroup: boolean
-  }
+  };
 
   constructor(private productService: ProductService,
-              private userService: UserService,
-              private setService: SetsService) { }
+    private userService: UserService,
+    private setService: SetsService) { }
 
   ngOnInit(): void {
     this.userService.getGroup()
@@ -41,34 +41,33 @@ export class ProductsItemComponent implements OnInit {
         err => console.log(err)
       );
 
-    this.setService.getSets(this.groupInfo.groupId).subscribe(
+    this.setService.getSets(this.groupInfo.groupId, null).subscribe(
       res => {
         this.sets = res;
       }
     );
 
     this.userService.getUsersInGroup(this.groupInfo.groupId)
-        .subscribe(
-          res => {
-            this.users = res;
-          },
-          err => console.log(err)
-        );
+      .subscribe(
+        res => {
+          this.users = res;
+        },
+        err => console.log(err)
+      );
   }
 
-  assignProduct(prodId){
-    this.newRentProduct.memberId=this.assignNameValue.id;
-    this.newRentProduct.id=prodId;
-    this.productService.assignProduct(this.newRentProduct).subscribe;
+  assignProduct(prodId) {
+    this.newRentProduct.memberId = this.assignNameValue.id;
+    this.newRentProduct.id = prodId;
+    this.productService.assignProduct(this.newRentProduct).subscribe();
   }
 
-  takeBackProduct(id:number){
-    this.productService.takeBackProduct(id).subscribe;
+  takeBackProduct(id: number) {
+    this.productService.takeBackProduct(id).subscribe();
   }
 
-  assignProductToSet(setId){
-    this.productService.assignProductToSet(setId, this.product).subscribe;
-
+  assignProductToSet(setId) {
+    this.productService.assignProductToSet(setId, this.product).subscribe();
   }
 
 }
