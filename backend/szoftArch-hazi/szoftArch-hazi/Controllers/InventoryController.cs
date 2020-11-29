@@ -24,7 +24,7 @@ namespace szoftArch_hazi.Controllers
 
         [Consumes("multipart/form-data")]
         [HttpPost("{groupId}/item")]
-        public async Task AddItem(int groupId, NewItemModel item)
+        public async Task AddItem(int groupId, [FromForm] NewItemModel item)
         {
             await InventoryService.AddItem(groupId, item);
         }

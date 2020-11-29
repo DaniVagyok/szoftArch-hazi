@@ -161,6 +161,7 @@ namespace szoftArch_hazi.Services
                 .Select(i=> new ItemModel { 
                     Id = i.Id,
                     Name = i.Name,
+                    OwnerName = i.Member != null ? i.Member.User.UserName : "",
                     CategoryName = i.Category != null ? i.Category.Name : ""
                 }).ToListAsync();
         }
@@ -172,10 +173,12 @@ namespace szoftArch_hazi.Services
                 {
                     Id = s.Id,
                     Name = s.Name,
+                    OwnerName = s.Member != null ? s.Member.User.UserName : "",
                     Items = s.Items.Select(i=> new ItemModel
                     {
                         Id = i.Id,
                         Name = i.Name,
+                        OwnerName = i.Member != null ? i.Member.User.UserName : "",
                         CategoryName = i.Category != null ? i.Category.Name : ""
                     })
                 }).ToListAsync();
@@ -188,6 +191,7 @@ namespace szoftArch_hazi.Services
                 {
                     Id = i.Id,
                     Name = i.Name,
+                    OwnerName = i.Member != null ? i.Member.User.UserName : "",
                     CategoryName = i.Category != null ? i.Category.Name : ""
                 }).ToListAsync();
         }
@@ -203,6 +207,7 @@ namespace szoftArch_hazi.Services
                     {
                         Id = i.Id,
                         Name = i.Name,
+                        OwnerName = i.Member != null ? i.Member.User.UserName : "",
                         CategoryName = i.Category != null ? i.Category.Name : ""
                     })
                 }).ToListAsync();
