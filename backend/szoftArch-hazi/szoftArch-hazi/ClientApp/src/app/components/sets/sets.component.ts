@@ -46,16 +46,15 @@ export class SetsComponent implements OnInit {
       .subscribe(
         res => {
           this.groupInfo = res;
+          this.setService.getSets(this.groupInfo.id, this.searchSetValue).subscribe(
+            res => {
+              this.sets = res;
+              this.filtered = res;
+            }
+          );
         },
         err => console.log(err)
       );
-
-    this.setService.getSets(this.groupInfo.id, this.searchSetValue).subscribe(
-      res => {
-        this.sets = res;
-        this.filtered = res;
-      }
-    );
 
     this.userService.getUsersInGroup(this.groupInfo.id)
       .subscribe(
@@ -91,7 +90,7 @@ export class SetsComponent implements OnInit {
   }
 
   addProductToSet(setid: number) {
-    this.setService.addProductToSet(setid, this.selectedProduct).subscribe();
+    this.setService.addProductToSet(setid, this.selectedProduct).subscribe(); // ennek id product id-nak kell lennie
   }
 
   addSet() {
