@@ -1,13 +1,13 @@
-<div *ngIf="product.category===category&&category">
+<div *ngIf="product.categoryName===category&&category">
     <div class="wrapper mx-3">
         <div class="card">
-            <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap">
+            <!-- <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap"> -->
             <div class="card-body">
                 <h1 class="card-title mb-1">{{ product.name }}</h1>
-                <p *ngIf="product.hasOwner" class="card-text">Nála van: {{ product.ownerId }}</p>
-                <div *ngIf="!product.hasOwner">
-                    <select type="text" class="m-1 w-100" [(ngModel)]="assignNameValue.name" id="selectName">
-                        <option *ngFor="let user of users" value="user.userName">{{user.userName}}
+                <p *ngIf="product.ownerName" class="card-text">Nála van: {{ product.ownerName }}</p>
+                <div *ngIf="!product.ownerName">
+                    <select type="text" class="m-1 w-100" [(ngModel)]="assignNameValue" id="selectName">
+                        <option *ngFor="let user of users" [value]="user.id">{{user.userName}}
                         </option>
                     </select>
                     <div class="input-group-append m-1">

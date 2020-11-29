@@ -91,14 +91,8 @@ export class SetsComponent implements OnInit {
   }
 
   addSet() {
-    this.newSet.name = this.addSetName;
-    this.setService.addSet(this.groupInfo.id, this.newSet)
-      .subscribe(
-        res => {
-          console.log(res);
-        },
-        err => console.log(err)
-      );
+    this.setService.addSet(this.groupInfo.id, {name: this.addSetName})
+      .subscribe(      );
     this.addSetName = '';
   }
 

@@ -15,9 +15,9 @@ export class ProductsItemComponent implements OnInit {
   @Input() product: Product;
   @Input() category: string;
   @Input() myId: number;
-  @Input() assignNameValue: Member;
+  @Input() assignNameValue: number;
 
-  users: User[];
+  users: Member[];
   sets: ProductSet[];
   newRentProduct: INewRentModel;
 
@@ -37,7 +37,7 @@ export class ProductsItemComponent implements OnInit {
       .subscribe(
         res => {
           this.groupInfo = res;
-          this.setService.getSets(this.groupInfo.id, null).subscribe(
+          this.setService.getSets(this.groupInfo.id, '').subscribe(
             res => {
               this.sets = res;
             }
@@ -58,9 +58,8 @@ export class ProductsItemComponent implements OnInit {
   }
 
   assignProduct(prodId) {
-    this.newRentProduct.memberId = this.assignNameValue.id;
-    this.newRentProduct.id = prodId;
-    this.productService.assignProduct(this.newRentProduct).subscribe();
+    console.log(this.assignNameValue);
+    this.productService.assignProduct({id: prodId, memberId: this.assignNameValue}).subscribe();
   }
 
   takeBackProduct(id: number) {
