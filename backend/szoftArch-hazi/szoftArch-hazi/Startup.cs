@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using szoftArch_hazi.Services;
+using Microsoft.AspNetCore.Authentication;
 
 namespace szoftArch_hazi
 {
@@ -64,11 +65,11 @@ namespace szoftArch_hazi
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            /*
-            services.AddScoped<ICaffFileService, CaffFileService>();
-            services.AddScoped<IUserService, UserService>();
+            
+            services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<Services.IAuthenticationService, Services.AuthenticationService>();
-            services.AddScoped<ILoggedInUser, LoggedInUser>();*/
+            services.AddScoped<ILoggedInUser, LoggedInUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
