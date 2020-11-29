@@ -37,23 +37,24 @@ export class ProductsItemComponent implements OnInit {
       .subscribe(
         res => {
           this.groupInfo = res;
+          this.setService.getSets(this.groupInfo.id, null).subscribe(
+            res => {
+              this.sets = res;
+            }
+          );
+      
+          this.userService.getUsersInGroup(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.users = res;
+              },
+              err => console.log(err)
+            );
         },
         err => console.log(err)
       );
 
-    this.setService.getSets(this.groupInfo.id, null).subscribe(
-      res => {
-        this.sets = res;
-      }
-    );
-
-    this.userService.getUsersInGroup(this.groupInfo.id)
-      .subscribe(
-        res => {
-          this.users = res;
-        },
-        err => console.log(err)
-      );
+    
   }
 
   assignProduct(prodId) {
