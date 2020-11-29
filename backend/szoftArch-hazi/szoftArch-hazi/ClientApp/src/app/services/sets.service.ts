@@ -17,7 +17,7 @@ export class SetsService {
   constructor(private http: HttpClient) { }
 
   addSet(groupId, newSet) {
-    return this.http.post<any>(`${this.inventoryUrl}/set`, groupId, newSet);
+    return this.http.post<any>(`${this.inventoryUrl}/${groupId}/set`, newSet);
   }
 
   assignSet(newRentSet) {

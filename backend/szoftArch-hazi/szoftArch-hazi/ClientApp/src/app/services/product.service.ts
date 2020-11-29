@@ -31,8 +31,17 @@ export class ProductService {
     return this.http.post<any>(`${this.groupUrl}/${groupId}/category`, addCategoryName)
   }
 
-  addProduct(groupId, newProd){
-    return this.http.post<any>(`${this.inventoryUrl}/item`, groupId, newProd)
+  addProduct(groupId, item: INewProductModel): Observable<void>{
+    const formData = new FormData();
+    const itemDto = {
+      ...item
+    };
+    for (const key in itemDto) {
+      if (key) {
+        formData.append(key, itemDto[key]);
+      }
+    }
+    return this.http.post<any>(`${this.inventoryUrl}/${groupId}/item`, formData);
   }
 
   getCategories(groupId){
@@ -63,18 +72,5 @@ export class ProductService {
     return this.http.get<any>(`${this.inventoryUrl}/${myId}/rent/item/`, {params})
   }
 
-  uploadShopItem(item: INewProductModel): Observable<void> {
-    // mock.push(shopItem);
-    const formData = new FormData();
-    const itemDto = {
-      ...item
-    };
-    for (const key in itemDto) {
-      if (key) {
-        formData.append(key, itemDto[key]);
-      }
-    }
-    return this.http.post<any>(this.productsUrl, formData);
-  }
   
 }
