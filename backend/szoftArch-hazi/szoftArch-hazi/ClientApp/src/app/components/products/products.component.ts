@@ -55,7 +55,7 @@ export class ProductsComponent implements OnInit {
             .subscribe(
               res => {
                 this.categories = res;
-                this.productService.getProducts(this.groupInfo.id, null)
+                this.productService.getProducts(this.groupInfo.id, "")
                   .subscribe(
                     res => {
                       this.filtered = res;
