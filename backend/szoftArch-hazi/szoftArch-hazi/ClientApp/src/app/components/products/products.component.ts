@@ -21,7 +21,7 @@ export class ProductsComponent implements OnInit {
   @Input() addProductCategory: string;
   @Input() addFile: File;
 
-  selectedCategory: Category;
+  selectedCategory: number;
   products: Product[];
   filtered: Product[];
   categories: Category[];
@@ -82,7 +82,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
     this.fileName = files.item(0).name;
-    this.uploadForm.controls.categoryId.setValue(this.selectedCategory.id);
+    this.uploadForm.controls.categoryId.setValue(this.selectedCategory);
     this.uploadForm.controls.file.setValue(files.item(0));
   }
 
