@@ -34,7 +34,7 @@ namespace szoftArch_hazi.Controllers
             await InventoryService.AddSet(groupId, set);
 
         }
-        [HttpPut("{setId}/item")]
+        [HttpPost("{setId}/item")]
         public async Task AddItemToSet(int setId, ItemModel item)
         {
             await InventoryService.AddItemToSet(setId, item);
@@ -55,12 +55,12 @@ namespace szoftArch_hazi.Controllers
         {
             await InventoryService.RentItemToMember(item);
         }
-        [HttpPost("revoke/set")]
+        [HttpDelete("revoke/set/{setId}")]
         public async Task RevokeSetFromMember(int setId)
         {
             await InventoryService.RevokeSetFromMember(setId);
         }
-        [HttpPost("revoke/item")]
+        [HttpDelete("revoke/item/{itemId}")]
         public async Task RevokeItemFromMember(int itemId)
         {
             await InventoryService.RevokeItemFromMember(itemId);
