@@ -17,6 +17,7 @@ export class ProductsItemComponent implements OnInit {
   @Input() myId: number;
   @Input() assignNameValue: number;
 
+  thubmnailUri: string;
   users: Member[];
   sets: ProductSet[];
   newRentProduct: INewRentModel;
@@ -33,6 +34,7 @@ export class ProductsItemComponent implements OnInit {
     private setService: SetsService) { }
 
   ngOnInit(): void {
+    this.thumbnailUri = `api/inventory/${this.product.id}/image`;
     this.userService.getGroup()
       .subscribe(
         res => {
