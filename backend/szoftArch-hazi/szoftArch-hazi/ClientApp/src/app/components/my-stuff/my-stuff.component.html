@@ -10,7 +10,7 @@
         <div class="mb-3 p-3 border">
             <h1>{{set.name}}</h1>
             <div class="row">
-                <app-products-item *ngFor="let set of mySets.items; index as i" [product]="product">
+                <app-products-item *ngFor="let product of set.items; index as i" [product]="product">
                 </app-products-item>
             </div>
         </div>
