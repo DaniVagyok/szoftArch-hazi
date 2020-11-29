@@ -17,10 +17,10 @@
                 <p *ngIf="product.set" class="card-text">Szett: {{ product.set }}</p>
                 <div *ngIf="!product.set">
                     <select type="text" class="m-1 w-100" [(ngModel)]="assignSetValue" id="selectSet">
-                        <option *ngFor="let set of sets" value="set.name">{{set.name}}</option>
+                        <option *ngFor="let set of sets" [value]="set.id">{{set.name}}</option>
                     </select>
                     <div class="input-group-append m-1">
-                        <button type="button" class="w-100" (click)="assignProductToSet(product.id)">Szetthez
+                        <button type="button" class="w-100" (click)="assignProductToSet()">Szetthez
                             adás</button>
                     </div>
                 </div>

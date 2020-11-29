@@ -16,6 +16,7 @@ export class ProductsItemComponent implements OnInit {
   @Input() category: string;
   @Input() myId: number;
   @Input() assignNameValue: string;
+  assignSetValue: string;
 
   thumbnailUri: string;
   users: Member[];
@@ -67,8 +68,8 @@ export class ProductsItemComponent implements OnInit {
     this.productService.takeBackProduct(id).subscribe();
   }
 
-  assignProductToSet(setId) {
-    this.productService.assignProductToSet(setId, this.product).subscribe();
+  assignProductToSet() {
+    this.productService.assignProductToSet(parseInt(this.assignSetValue), this.product).subscribe();
   }
 
 }
