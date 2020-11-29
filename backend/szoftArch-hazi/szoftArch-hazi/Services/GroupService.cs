@@ -52,6 +52,7 @@ namespace szoftArch_hazi.Services
                 .Select(m=> new GroupModel {
                     Id = m.Group.Id,
                     Name = m.Group.Name,
+                    MemberId = m.Id,
                     IsAdminInGroup = m.IsAdmin
                 }).FirstOrDefaultAsync();
         }
@@ -62,6 +63,7 @@ namespace szoftArch_hazi.Services
                 {
                     Id = m.Group.Id,
                     Name = m.Group.Name,
+                    MemberId = m.Id,
                     IsAdminInGroup = m.IsAdmin
                 }).FirstOrDefaultAsync();
         }
