@@ -17,7 +17,7 @@ export class ProductsItemComponent implements OnInit {
   @Input() myId: number;
   @Input() assignNameValue: number;
 
-  thubmnailUri: string;
+  thumbnailUri: string;
   users: Member[];
   sets: ProductSet[];
   newRentProduct: INewRentModel;
