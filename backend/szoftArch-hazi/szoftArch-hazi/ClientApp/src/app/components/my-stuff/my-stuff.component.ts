@@ -37,6 +37,7 @@ export class MyStuffComponent implements OnInit {
         this.setsService.getMySets(this.groupInfo.memberId, this.searchValue).subscribe(
           res => {
               this.mySets = res;
+              this.myId =this.groupInfo.memberId;
           }
         );
         this.productService.getMyProducts(this.groupInfo.memberId, this.searchValue).subscribe(

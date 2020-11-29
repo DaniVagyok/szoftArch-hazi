@@ -45,7 +45,9 @@ export class ProductsItemComponent implements OnInit {
               this.sets = res;
             }
           );
-      
+          
+            this.myId = this.groupInfo.id;
+
           this.userService.getUsersInGroup(this.groupInfo.id)
             .subscribe(
               res => {

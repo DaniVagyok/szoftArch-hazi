@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div *ngIf="myId&&myId===product.ownerName">
+<div *ngIf="myId">
     <div class="wrapper mx-3">
         <div class="card">
             <img class="card-img-top" [attr.src]="thumbnailUri | secure | async" alt="Card image cap">

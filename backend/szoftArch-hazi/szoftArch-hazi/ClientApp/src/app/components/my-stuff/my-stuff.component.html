@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Tárgyaim</h1>
     <div class="row mb-3">
-        <app-products-item *ngFor="let product of products; index as i" [product]="product" [myId]="myId">
+        <app-products-item *ngFor="let product of myProducts; index as i" [product]="product" [myId]="myId">
         </app-products-item>
     </div>
 
@@ -10,7 +10,7 @@
         <div *ngIf="myId===set.ownerId" class="mb-3 p-3 border">
             <h1>{{set.name}}</h1>
             <div class="row">
-                <app-products-item *ngFor="let product of set.items; index as i" [product]="product" [myId]="myId">
+                <app-products-item *ngFor="let product of mySets.items; index as i" [product]="product" [myId]="myId">
                 </app-products-item>
             </div>
         </div>
