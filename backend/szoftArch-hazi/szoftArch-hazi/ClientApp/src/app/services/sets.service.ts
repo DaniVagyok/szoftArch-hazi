@@ -28,7 +28,7 @@ export class SetsService {
     return this.http.post<any>(`${this.inventoryUrl}/revoke/set`, id);
   }
 
-  addProductToSet(setid: number, selectedProduct: string) {
+  addProductToSet(setid: number, selectedProduct: number) {
     return this.http.post<any>(`${this.inventoryUrl}/${setid}/item`, selectedProduct);
   }
 

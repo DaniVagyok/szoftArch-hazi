@@ -23,13 +23,13 @@
             <h1>{{set.name}}</h1>
             <div>
                 <div *ngIf="set.hasOwner" class="row">
-                    <h2 class="m-3">A szett {{set.ownerId}} tulajdonában van</h2>
+                    <h2 class="m-3">A szett {{set.ownerName}} tulajdonában van</h2>
                     <button class="btn btn-dark m-3" type="button" (click)="takeBackSet(set.id)">Visszavétel</button>
                 </div>
                 <div *ngIf="!set.hasOwner" class="input-group mb-3">
                     <select class="form-control" (change)="selectChangeMemberHandler($event)">
                         <option value="" selected disabled>Kiadás neki</option>
-                        <option *ngFor="let user of users">{{user.userName}}</option>
+                        <option *ngFor="let user of users" [value]="user.id">{{user.userName}}</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button" (click)="assignSet(set.id)">Kiadás</button>
@@ -43,7 +43,7 @@
                     </div>
                     <select class="form-control" id="exampleFormControlSelect1" (change)="selectChangeHandler($event)">
                         <option value="" id="0" selected disabled>Kérlek válassz</option>
-                        <option *ngFor="let product of productsNotInSet" [value]="product.name">{{product.name}}</option>
+                        <option *ngFor="let product of products" [value]="product.name">{{product.name}}</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button" (click)="addProductToSet(set.id)">Hozzáadás</button>
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="row">
-                <app-products-item *ngFor="let product of set.products; index as i" [product]="product">
+                <app-products-item *ngFor="let product of set.items; index as i" [product]="product">
                 </app-products-item>
             </div>
         </div>

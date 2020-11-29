@@ -19,7 +19,7 @@ export class SetsComponent implements OnInit {
   @Input() addSetName: string;
   @Input() assignSetValue: string;
 
-  selectedProduct: string;
+  selectedProduct: number;
   selectedMember: Member;
   sets: ProductSet[];
   products: Product[];
@@ -63,7 +63,6 @@ export class SetsComponent implements OnInit {
             .subscribe(
               res => {
                 this.products = res;
-                this.productsNotInSet = this.products.filter(p => !p.set).sort((a, b) => a.name.localeCompare(b.name));
               },
               err => {
                 if (err instanceof HttpErrorResponse) {
