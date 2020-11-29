@@ -6,6 +6,7 @@ import { ProductService } from 'src/app/services/Product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { $ } from 'protractor';
 import { UserService } from 'src/app/services/user.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-Products',
@@ -25,6 +26,13 @@ export class ProductsComponent implements OnInit {
   filtered: Product[];
   categories: string[];
   newProd: INewProductModel;
+  fileName: string;
+
+  uploadForm: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    category: new FormControl(''),
+    file: new FormControl(null),
+  });
 
   groupInfo: {
     groupId: number,
@@ -68,10 +76,19 @@ export class ProductsComponent implements OnInit {
       );
   }
 
+  uploadFile(files: FileList): void {
+    if (files.length === 0) {
+      return;
+    }
+    this.fileName = files.item(0).name;
+    this.uploadForm.controls.file.setValue(files.item(0));
+  }
+
   addProduct() {
-    this.newProd.category = this.addProductCategory;
+    /*this.newProd.category = this.addProductCategory;
     this.newProd.name = this.addProductName;
-    this.productService.addProduct(this.groupInfo.groupId, this.newProd).subscribe(
+    this.newProd.file = this.uploadForm.value*/
+    this.productService.addProduct(this.groupInfo.groupId, this.uploadForm.value).subscribe(
       res => {
         console.log(res);
       },

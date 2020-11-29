@@ -13,4 +13,5 @@ export class Product {
 export interface INewProductModel {
     name: string;
     category: string;
+    file: File;
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 
 import { User } from '../models/user';
-import { Product } from '../models/product';
+import { INewProductModel, Product } from '../models/product';
 import { environment } from 'src/environments/environment';
 
 const httpOptions = {
@@ -61,6 +61,20 @@ export class ProductService {
     const params = new HttpParams()
      .set('term', str)
     return this.http.get<any>(`${this.inventoryUrl}/${myId}/rent/item/`, {params})
+  }
+
+  uploadShopItem(item: INewProductModel): Observable<void> {
+    // mock.push(shopItem);
+    const formData = new FormData();
+    const itemDto = {
+      ...item
+    };
+    for (const key in itemDto) {
+      if (key) {
+        formData.append(key, itemDto[key]);
+      }
+    }
+    return this.http.post<any>(this.productsUrl, formData);
   }
   
 }
