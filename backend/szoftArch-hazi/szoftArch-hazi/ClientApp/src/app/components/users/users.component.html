@@ -5,7 +5,7 @@
 
     <select class="form-control" (change)="selectChangeHandler($event)">
       <option value="" selected disabled>Válassz tagot</option>
-      <option *ngFor="let userNoGr of usersNotInGroup" [value]="userNoGr">{{userNoGr.userName}}</option>
+      <option *ngFor="let userNoGr of usersNotInGroup" [value]="userNoGr.id">{{userNoGr.userName}}</option>
   </select>
 
   <div class="input-group-append">
@@ -18,14 +18,13 @@
       <th>#</th>
       <th>Név</th>
       <th>Admin</th>
-      <th>Törlés</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let user of users; index as i" (deleteUser)="deleteUser($event)">
       <th scope="row" class="align-middle">{{ i + 1 }}</th>
       <td class="align-middle">{{ user.userName }}</td>
-      <td class="align-middle"><input (change)="onToggle(user)" type="checkbox"></td>
+      <td class="align-middle"><input (change)="onToggle(user)" [checked]="user.isAdmin" type="checkbox"></td>
     </tr>
   </tbody>
 </table>

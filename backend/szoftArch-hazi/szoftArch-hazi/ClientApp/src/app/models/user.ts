@@ -8,6 +8,12 @@ export class User {
     group: string;
 }
 
+export class Member {
+    id: number;
+    isAdmin: boolean;
+    userName: string;
+}
+
 export interface INewMember {
     userId: string;
     groupId: number;

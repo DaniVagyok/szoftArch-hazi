@@ -5,7 +5,7 @@ import { SetsService } from 'src/app/services/sets.service';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/Product.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { User } from 'src/app/models/user';
+import { Member, User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class SetsComponent implements OnInit {
   @Input() assignSetValue: string;
 
   selectedProduct: string;
-  selectedMember: User;
+  selectedMember: Member;
   sets: ProductSet[];
   products: Product[];
   filtered: ProductSet[];

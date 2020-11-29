@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
   newMember: INewMember;
   users: User[];
   usersNotInGroup: User[];
-  selectedMember: User;
+  selectedMember: string;
   groupInfo: {
     id: number,
     memberId: number,
@@ -51,13 +51,19 @@ export class UsersComponent implements OnInit {
   }
 
   addMember() {
-    console.log(this.selectedMember.id);
-    this.userService.addMember({groupId: this.groupInfo.id, userId:this.selectedMember.id}, this.groupInfo.id)
+    console.log(this.selectedMember);
+    this.userService.addMember({groupId: this.groupInfo.id, userId:this.selectedMember}, this.groupInfo.id)
       .subscribe(() => {
         this.userService.getUsersInGroup(this.groupInfo.id)
           .subscribe(
             res => {
               this.users = res;
+              this.userService.getUsersNotInGroup(this.groupInfo.id)
+            .subscribe(
+              res => {
+                this.usersNotInGroup = res;
+              }
+            )
             },
             err => console.log(err)
           );

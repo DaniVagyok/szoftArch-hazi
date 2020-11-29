@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
       .subscribe(
         res => {
           this.groupInfo = res;
+          
         },
         err => console.log(err)
       );

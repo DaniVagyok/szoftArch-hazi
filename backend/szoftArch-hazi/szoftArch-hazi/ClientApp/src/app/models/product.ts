@@ -2,12 +2,9 @@ import { Interface } from 'readline';
 
 export class Product {
     id: number;
-    hasOwner: boolean;
-    ownerId: number;
+    ownerName: string;
     name: string;
-    category: string;
-    set: string;
-    imgsrc: string;
+    categoryName: string;
 }
 
 export interface INewProductModel {
