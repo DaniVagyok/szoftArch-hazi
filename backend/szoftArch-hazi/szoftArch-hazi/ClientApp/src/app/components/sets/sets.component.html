@@ -43,7 +43,7 @@
                     </div>
                     <select class="form-control" id="exampleFormControlSelect1" (change)="selectChangeHandler($event)">
                         <option value="" id="0" selected disabled>Kérlek válassz</option>
-                        <option *ngFor="let product of products" [value]="product.name">{{product.name}}</option>
+                        <option *ngFor="let product of products" [value]="product.id">{{product.name}}</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button" (click)="addProductToSet(set.id)">Hozzáadás</button>

@@ -19,7 +19,7 @@ export class SetsComponent implements OnInit {
   @Input() addSetName: string;
   @Input() assignSetValue: string;
 
-  selectedProduct: number;
+  selectedProduct: string;
   selectedMember: string;
   sets: ProductSet[];
   products: Product[];
@@ -100,7 +100,8 @@ export class SetsComponent implements OnInit {
   }
 
   addProductToSet(setid: number) {
-    this.setService.addProductToSet(setid, this.selectedProduct).subscribe(); // ennek id product id-nak kell lennie
+    let prod: Product = {ownerName:'',id: parseInt(this.selectedProduct), categoryName:'', name:''};
+    this.productService.assignProductToSet(setid, prod).subscribe(); // ennek id product id-nak kell lennie
   }
 
   addSet() {
