@@ -15,7 +15,7 @@ export class ProductsItemComponent implements OnInit {
   @Input() product: Product;
   @Input() category: string;
   @Input() myId: number;
-  @Input() assignNameValue: number;
+  @Input() assignNameValue: string;
 
   thumbnailUri: string;
   users: Member[];
@@ -60,8 +60,7 @@ export class ProductsItemComponent implements OnInit {
   }
 
   assignProduct(prodId) {
-    console.log(this.assignNameValue);
-    this.productService.assignProduct({id: prodId, memberId: this.assignNameValue}).subscribe();
+    this.productService.assignProduct({id: prodId, memberId: parseInt(this.assignNameValue)}).subscribe();
   }
 
   takeBackProduct(id: number) {

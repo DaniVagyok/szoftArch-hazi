@@ -22,11 +22,11 @@
         <div class="mb-3 p-3 border">
             <h1>{{set.name}}</h1>
             <div>
-                <div *ngIf="set.hasOwner" class="row">
+                <div *ngIf="set.ownerName" class="row">
                     <h2 class="m-3">A szett {{set.ownerName}} tulajdonában van</h2>
                     <button class="btn btn-dark m-3" type="button" (click)="takeBackSet(set.id)">Visszavétel</button>
                 </div>
-                <div *ngIf="!set.hasOwner" class="input-group mb-3">
+                <div *ngIf="!set.ownerName" class="input-group mb-3">
                     <select class="form-control" (change)="selectChangeMemberHandler($event)">
                         <option value="" selected disabled>Kiadás neki</option>
                         <option *ngFor="let user of users" [value]="user.id">{{user.userName}}</option>

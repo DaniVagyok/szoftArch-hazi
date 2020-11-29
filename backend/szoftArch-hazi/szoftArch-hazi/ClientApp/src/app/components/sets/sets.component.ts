@@ -20,7 +20,7 @@ export class SetsComponent implements OnInit {
   @Input() assignSetValue: string;
 
   selectedProduct: number;
-  selectedMember: Member;
+  selectedMember: string;
   sets: ProductSet[];
   products: Product[];
   filtered: ProductSet[];
@@ -76,9 +76,22 @@ export class SetsComponent implements OnInit {
   }
 
   assignSet(setId) {
-    this.newRentSet.memberId = this.selectedMember.id;
-    this.newRentSet.id = setId;
-    this.setService.assignSet(this.newRentSet);
+    console.log(this.selectedMember);
+    console.log(setId);
+    //this.newRentSet.memberId = this.selectedMember.id;
+    //this.newRentSet.id = setId;
+    this.setService.assignSet({ id: setId, memberId: parseInt(this.selectedMember) })
+      .subscribe(
+        res => {
+          this.setService.getSets(this.groupInfo.id, this.searchSetValue).subscribe(
+            res => {
+              this.sets = res;
+              this.filtered = res;
+            }
+          );
+        }
+
+      );
     this.assignSetValue = '';
   }
 
@@ -91,8 +104,9 @@ export class SetsComponent implements OnInit {
   }
 
   addSet() {
-    this.setService.addSet(this.groupInfo.id, {name: this.addSetName})
-      .subscribe(      );
+    console.log(this.addSetName);
+    this.setService.addSet(this.groupInfo.id, { name: this.addSetName })
+      .subscribe();
     this.addSetName = '';
   }
 

@@ -31,10 +31,10 @@
     </div>
 </div>
 
-<div *ngIf="myId&&myId===product.ownerId">
+<div *ngIf="myId&&myId===product.ownerName">
     <div class="wrapper mx-3">
         <div class="card">
-            <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap">
+            <img class="card-img-top" [attr.src]="thumbnailUri | secure | async" alt="Card image cap">
             <div class="card-body">
                 <h1 class="card-title">{{ product.name }}</h1>
                 <p class="card-text">Szett: {{ product.set }}</p>
@@ -47,10 +47,10 @@
 <div *ngIf="!category&&!myId">
     <div class="wrapper mx-3">
         <div class="card">
-            <img class="card-img-top" src={{product.imgsrc}} alt="Card image cap">
+            <img class="card-img-top" [attr.src]="thumbnailUri | secure | async" alt="Card image cap">
             <div class="card-body">
                 <h1 class="card-title">{{ product.name }}</h1>
-                <p class="card-text">Nála van: {{ product.ownerId }}</p>
+                <p class="card-text">Nála van: {{ product.ownerName }}</p>
                 <p class="card-text">Kategória: {{ product.category }}</p>
             </div>
         </div>
